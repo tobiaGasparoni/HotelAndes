@@ -38,5 +38,4 @@ public interface VOTipoHabitacion
 	 * 
 	 * @return Las habitaciones de este tipo de habitación
 	 */
-	public List<Long> getHabitaciones();
 }

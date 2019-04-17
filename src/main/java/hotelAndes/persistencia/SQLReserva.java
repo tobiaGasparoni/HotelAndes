@@ -105,5 +105,32 @@ public class SQLReserva {
     	
     	return (long) q1.executeUnique();
     }
+    
+    public Reserva darReservaPorHabitacionYFecha (PersistenceManager pm, long idHabitacion, Timestamp fecha)
+    {
+    	Query q = pm.newQuery(SQL, "SELECT * FROM" + pp.darTablaReserva() + "WHERE HABITACION_ID = ? AND FECHA_ENTRADA >= ? AND FECHA_SALIDA <= ?");
+    	q.setResultClass(Reserva.class);
+    	q.setParameters(idHabitacion,fecha, fecha);
+    	
+    	return (Reserva) q.executeUnique();
+    }
+    
+    public long[] darSalidaReserva (PersistenceManager pm, long idReserva)
+    {
+    	Query q1 = pm.newQuery(SQL, "UPDATE "+ pp.darTablaCuenta()+ " SET PAGADA = 1 WHERE RESERVA_ID = ?");
+    	q1.setParameters(idReserva);
+    	
+    	SQLReserva sqlReserva = new SQLReserva(pp);
+    	
+    	Reserva reserva = sqlReserva.darReservaPorId(pm, idReserva);
+    	
+    	Query q2 = pm.newQuery(SQL, "UPDATE "+ pp.darTablaHabitacion()+ " SET DISPONIBLE = 1, LLEGADA_CLIENTE = 0 WHERE ID = ? ");
+    	q2.setParameters(reserva.getIdHabitacion());
+    	
+    	long updateCuenta = (long)q1.executeUnique();
+    	long updateHabitacion = (long) q2.executeUnique();
+    	
+    	return new long[] {updateCuenta, updateHabitacion};
+    }
 	
 }

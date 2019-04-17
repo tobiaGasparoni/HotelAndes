@@ -30,56 +30,65 @@ public class TipoHabitacion implements VOTipoHabitacion
 	 */
 	private String descripcion;
 
-	/**
-	 * Las habitaciones de este tipo
-	 */
-	private List<Long> habitaciones;
 
+
+	
 	/**
 	 * @param id
 	 * @param nombre
 	 * @param descripcion
-	 * @param habitaciones
 	 */
-	public TipoHabitacion(long id, String nombre, String descripcion, List<Long> habitaciones) {
+	public TipoHabitacion(long id, String nombre, String descripcion) {
 		this.id = id;
 		this.nombre = nombre;
 		this.descripcion = descripcion;
-		this.habitaciones = habitaciones;
 	}
+
+
+
 
 	public long getId() {
 		return id;
 	}
 
+
+
+
 	public void setId(long id) {
 		this.id = id;
 	}
+
+
+
 
 	public String getNombre() {
 		return nombre;
 	}
 
+
+
+
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
+
+
+
 
 	public String getDescripcion() {
 		return descripcion;
 	}
 
+
+
+
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
 
-	public List<Long> getHabitaciones() {
-		return habitaciones;
-	}
 
-	public void setHabitaciones(List<Long> habitaciones) {
-		this.habitaciones = habitaciones;
-	}
-	
+
+
 	@Override
 	public String toString()
 	{
