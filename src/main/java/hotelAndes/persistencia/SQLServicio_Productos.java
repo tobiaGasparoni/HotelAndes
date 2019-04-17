@@ -3,6 +3,8 @@
  */
 package main.java.hotelAndes.persistencia;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.jdo.PersistenceManager;
@@ -82,6 +84,46 @@ public class SQLServicio_Productos {
 		Query q = pm.newQuery(SQL, "SELECT * FROM " + pp.darTablaServicioProductos());
 		q.setResultClass(ServicioProductos.class);
 		return (List<ServicioProductos>) q.executeList();
+	}
+	
+	public long entradaEnMantenimiento (PersistenceManager pm, long idServicioProductos)
+	{
+		Query q = pm.newQuery(SQL, "UPDATE "+ pp.darTablaServicioProductos()+ " SET EN_MANTENIMIENTO = 1 WHERE ID= ? ");
+		q.setParameters(idServicioProductos);
+		return (long) q.executeUnique();
+	}
+	
+	public long salidaEnMantenimiento(PersistenceManager pm, long idServicioProductos)
+	{
+		Query q = pm.newQuery(SQL, "UPDATE "+ pp.darTablaServicioProductos()+ " SET EN_MANTENIMIENTO = 0 WHERE ID= ? ");
+		q.setParameters(idServicioProductos);
+		return (long) q.executeUnique();
+	}
+	
+	public List<Long> entradaMultipleEnMantenimiento (PersistenceManager pm, List<Long>idServiciosProductos)
+	{
+		Iterator<Long> iter = idServiciosProductos.iterator();
+		SQLServicio_Productos sqlServicioProductos = new SQLServicio_Productos(pp);
+		List<Long> lista = new ArrayList<>();
+		while(iter.hasNext())
+		{
+			lista.add(sqlServicioProductos.entradaEnMantenimiento(pm, iter.next()));
+		}
+		
+		return lista;
+	}
+	
+	public List<Long> salidaMultipleEnMantenimiento (PersistenceManager pm, List<Long> idServiciosProductos)
+	{
+		Iterator<Long> iter = idServiciosProductos.iterator();
+		SQLServicio_Productos sqlServicioProductos = new SQLServicio_Productos(pp);
+		List<Long> lista = new ArrayList<>();
+		while(iter.hasNext())
+		{
+			lista.add(sqlServicioProductos.salidaEnMantenimiento(pm, iter.next()));
+		}
+		
+		return lista;
 	}
 	
 }
