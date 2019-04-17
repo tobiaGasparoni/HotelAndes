@@ -47,6 +47,13 @@ public class TipoHabitacion implements VOTipoHabitacion
 		this.descripcion = descripcion;
 		this.habitaciones = habitaciones;
 	}
+	
+	public TipoHabitacion(long id, String nombre, String descripcion) {
+		this.id = id;
+		this.nombre = nombre;
+		this.descripcion = descripcion;
+		this.habitaciones = habitaciones;
+	}
 
 	public long getId() {
 		return id;
