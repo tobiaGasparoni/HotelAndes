@@ -3,6 +3,7 @@
  */
 package main.java.hotelAndes.persistencia;
 
+import java.sql.Timestamp;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
@@ -20,6 +21,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import main.java.hotelAndes.negocio.Reserva;
+import main.java.hotelAndes.negocio.ReservaServicio;
 import main.java.hotelAndes.negocio.TipoHabitacion;
 
 
@@ -442,4 +444,84 @@ public class PersistenciaHotelAndes {
             pm.close();
         }
 	}
+	
+	public Reserva adicionarReserva (Timestamp fechaEntrada, Timestamp fechaSalida, int numeroPersonas, long planPago, String tipoDocumento, String documento, String tipo, long idHabitacion, long idConvencion)
+	{
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Transaction tx = pm.currentTransaction();
+		try{
+			tx.begin();
+			long idReserva = nextval();
+			long tuplasInsertadas = sqlReserva.adicionarReserva(pm, idReserva, fechaEntrada, fechaSalida, numeroPersonas, planPago, tipoDocumento, documento, tipo, idHabitacion, idConvencion);
+		    tx.commit();
+		    
+		    log.trace("Insercion de reserva: FechaEntrada: "+ fechaEntrada + " FechaSalida: "+ numeroPersonas+ " Tipo Documento: "+ tipoDocumento+ " Documento: "+ documento+ " Id habitacion: "+ idHabitacion+ " : "+ tuplasInsertadas + " tuplas insertadas.");
+		    
+		    return new Reserva(idReserva, fechaEntrada, fechaSalida, numeroPersonas, planPago, tipoDocumento, documento, tipo, idHabitacion, idConvencion);
+		}
+		catch (Exception e) {
+			log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+        	return null;
+		}
+		finally{
+			if (tx.isActive())
+            {
+                tx.rollback();
+            }
+            pm.close();
+		}
+	}
+	
+	public ReservaServicio adicionarReservaServicio (double costo, String descripcion, Timestamp fecha, String nombreEmpleado, int numClientes, String tipoServicio, long idServicio, String tipoDocumento, String documento, String tipo, long idHotel, long idConvencion)
+	{
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Transaction tx =  pm.currentTransaction();
+		try {
+			tx.begin();
+			long idReservaServicio = nextval();
+			long tuplasInsertadas= sqlReservaServicio.adicionarReservaServicio(pm, idReservaServicio, costo, descripcion, fecha, nombreEmpleado, numClientes, tipoServicio, idServicio, tipoDocumento, documento, tipo, idHotel, idConvencion);
+			tx.commit();
+			
+			log.trace("Insercion de reserva servicio: Costo: "+costo+ " descripcion: "+ descripcion+ " fecha: "+ fecha+ " nombre empleado: "+ nombreEmpleado+ " numero clientes: "+ numClientes+ " tipo servicio: "+ tipoServicio+ " id servicio:"+ idServicio+  " tipo documento: "+tipoDocumento+ " documento: "+documento+ " tipo: "+tipo+ "id hotel"+ idHotel+ " : "+tuplasInsertadas+ " tuplas insertadas" );
+			
+			return new ReservaServicio(idReservaServicio, costo, descripcion, fecha, nombreEmpleado, numClientes, tipoServicio, idServicio, tipoDocumento, documento, tipo, idHotel, idConvencion);
+		} catch (Exception e) {
+			log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+        	return null;
+		}
+		finally {
+			if (tx.isActive())
+            {
+                tx.rollback();
+            }
+            pm.close();
+		}
+	}
+	
+	public long registrarLlegadaCliente (long idReserva)
+	{
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Transaction tx = pm.currentTransaction();
+		
+		try {
+			
+			tx.begin();
+			long resp = sqlReserva.registrarLlegadaCliente(pm, idReserva, nextval());
+			tx.commit();
+			return resp;
+		} catch (Exception e) {
+			log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+            return -1;
+		}finally
+		{
+			if (tx.isActive())
+            {
+                tx.rollback();
+            }
+            pm.close();
+		}
+	}
+	
+
+	
 }
