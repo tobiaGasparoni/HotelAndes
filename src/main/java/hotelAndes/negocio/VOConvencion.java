@@ -20,15 +20,4 @@ public interface VOConvencion {
 	
 	public Timestamp getFechaFin();
 	
-	/**
-	 * [Reserva, fechaentrada, fechaSalida]
-	 * @return reservas asociadas a la convencion
-	 */
-	public List<Long> getReservas();
-	
-	/**
-	 * [ReservaServicio, descripcion, tipoServicio]
-	 * @return reserva del servicio del hotel para la convencion
-	 */
-	public List<Long> getReservasServicios();
 }

@@ -1,12 +1,19 @@
 package main.java.hotelAndes.persistencia;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
+import com.sun.org.apache.xml.internal.security.keys.keyresolver.implementations.RSAKeyValueResolver;
+
 import main.java.hotelAndes.negocio.Convencion;
+import main.java.hotelAndes.negocio.Habitacion;
+import main.java.hotelAndes.negocio.Reserva;
+import main.java.hotelAndes.negocio.ReservaServicio;
 
 /**
  * @author Julián Mendoza
@@ -83,5 +90,42 @@ public class SQLConvencion {
 		return (List<Convencion>) q.executeList();
 	}
 	
+	public List<Habitacion> darHabitacionesReservadasPorConvencion (PersistenceManager pm, long idConvencion)
+	{
+		SQLReserva sqlReserva = new SQLReserva(pp);
+		SQLHabitacion sqlHabitacion = new SQLHabitacion(pp);
+		List<Reserva> reservas = sqlReserva.darReservasPorIdConvencion(pm, idConvencion);
+		List<Habitacion> habitaciones = new ArrayList<Habitacion>();
+		Iterator<Reserva> iter = reservas.iterator();
+		
+		while(iter.hasNext())
+		{
+			Reserva reservaActual = iter.next();
+			
+			Habitacion habitacionActual = sqlHabitacion.darHabitacionPorId(pm, reservaActual.getIdHabitacion());
+			
+			habitaciones.add(habitacionActual);
+		}
+		
+		return habitaciones;
+	}
+	
+	public List<ReservaServicio> darReservasServicioPorConvencion (PersistenceManager pm, long idConvencion)
+	{
+		SQLReserva_Servicio sqlReservaServicio = new SQLReserva_Servicio(pp);
+		return sqlReservaServicio.darReservasServicioPorIdConvencion(pm, idConvencion);
+	}
+	
+	public Long[] cancelarConvencion (PersistenceManager pm, long idConvencion)
+	{
+		SQLReserva_Servicio sqlReservaServicio = new SQLReserva_Servicio(pp);
+		SQLReserva sqlReserva = new SQLReserva(pp);
+		
+		long reservasServicioEliminados = sqlReservaServicio.eliminarReservaServicioPorIdConvencion(pm, idConvencion);
+		long reservasEliminados = sqlReserva.eliminarReservaPorIdConvencion(pm, idConvencion);
+		
+		return new Long[]{reservasServicioEliminados, reservasEliminados};
+		
+	}
 	
 }
