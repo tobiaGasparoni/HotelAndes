@@ -1,5 +1,5 @@
-锘縶
-	"title": "Aplicaci贸n transaccional de HotelAndes",
+{
+	"title": "Aplicaci髇 transaccional de HotelAndes",
 	"frameH": 600,
 	"frameW": 800,
 	"bannerPath": "./src/main/resources/config/logo.png",
@@ -30,8 +30,8 @@
 		  "options":
 			[
 				{
-					"label": "Mostrar log HotelAndes",
-					"event": "mostrarLogHotelAndes"
+					"label": "Mostrar log Parranderos",
+					"event": "mostrarLogParranderos"
 				},
 				{
 					"label": "Mostrar log datanucleus",
@@ -39,7 +39,7 @@
 				},
 				{
 					"label": "Limpiar log de parranderos",
-					"event": "limpiarLogHotelAndes"
+					"event": "limpiarLogParranderos"
 				},
 				{
 					"label": "Limpiar log de datanucleus",
@@ -51,11 +51,11 @@
 				}
 			]
 		},		
-		{ "menuTitle": "Documentaci贸n",
+		{ "menuTitle": "Documentaci髇",
 		  "options":
 			[
 				{
-					"label": "Presentaci贸n general",
+					"label": "Presentaci髇 general",
 					"event": "mostrarPresentacionGeneral"
 				},
 				{
@@ -67,7 +67,7 @@
 					"event": "mostrarEsquemaBD"
 				},
 				{
-					"label": "Script creaci贸n de la BD",
+					"label": "Script creaci髇 de la BD",
 					"event": "mostrarScriptBD"
 				},
 				{
@@ -75,7 +75,7 @@
 					"event": "mostrarArqRef"
 				},
 				{
-					"label": "Javadoc HotelAndes",
+					"label": "Javadoc Parranderos",
 					"event": "mostrarJavadoc"
 				}
 			]
@@ -92,4 +92,3 @@
 		
 	]
 }
-	

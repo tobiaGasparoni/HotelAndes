@@ -50,6 +50,7 @@ public class SQLTipo_Habitacion {
 	 */
 	public long adicionarTipoHabitacion (PersistenceManager pm, long idTipoHabitacion, String nombre, String descripcion) 
 	{
+		System.out.println("Entered here(SQL TIPO HABITACION)");
         Query q = pm.newQuery(SQL, "INSERT INTO " + pp.darTablaTipoHabitacion() + "(id, nombre, descripcion) values (?, ?, ?)");
         q.setParameters(idTipoHabitacion, nombre, descripcion);
         return (long) q.executeUnique();

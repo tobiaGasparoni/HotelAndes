@@ -5,12 +5,18 @@ import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.lang.reflect.Method;
 import java.util.List;
+import java.util.Properties;
 
 import javax.jdo.JDODataStoreException;
 import javax.swing.ImageIcon;
@@ -22,7 +28,9 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
+import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -47,12 +55,12 @@ public class InterfazHotelAndes extends JFrame implements ActionListener
 	/**
 	 * Ruta al archivo de configuración de la interfaz
 	 */
-	private static final String CONFIG_INTERFAZ = ".src/main/resources/config/configInterfaz.json";
+	private static final String CONFIG_INTERFAZ = "./src/main/resources/config/configInterfaz.json";
 	
 	/**
 	 * Ruta al archivo de configuración de los nombres de tablas de la base de datos
 	 */
-	private static final String CONFIG_TABLAS = ".src/main/resources/config/tablas.json"; 
+	private static final String CONFIG_TABLAS = "./src/main/resources/config/tablas.json"; 
 	
 	/* ****************************************************************
 	 * 			Atributos
@@ -131,14 +139,14 @@ public class InterfazHotelAndes extends JFrame implements ActionListener
 		try 
 		{
 			Gson gson = new Gson( );
-			FileReader file = new FileReader (archConfig);
+			FileReader file = new FileReader (archConfig);			 
 			JsonReader reader = new JsonReader ( file );
 			config = gson.fromJson(reader, JsonObject.class);
 			log.info ("Se encontró un archivo de configuración válido: " + tipo);
 		} 
 		catch (Exception e)
 		{
-//			e.printStackTrace ();
+			e.printStackTrace ();
 			log.info ("NO se encontró un archivo de configuración válido");			
 			JOptionPane.showMessageDialog(null, "No se encontró un archivo de configuración de interfaz válido: " + tipo, "HotelAndes", JOptionPane.ERROR_MESSAGE);
 		}	
@@ -505,9 +513,17 @@ public class InterfazHotelAndes extends JFrame implements ActionListener
      * @param pEvento - El evento del usuario
      */
 	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
-		
+	public void actionPerformed(ActionEvent pEvento) {
+		String evento = pEvento.getActionCommand( );		
+        try 
+        {
+			Method req = InterfazHotelAndes.class.getMethod ( evento );			
+			req.invoke ( this );
+		} 
+        catch (Exception e) 
+        {
+			e.printStackTrace();
+		}
 	}
     
 	/* ****************************************************************
@@ -519,10 +535,12 @@ public class InterfazHotelAndes extends JFrame implements ActionListener
      */
     public static void main( String[] args )
     {
-    	//CONFIG_INTERFAZ
-    	System.out.println();
         try
         {
+//        	Properties props = new Properties();
+//        	props.load(new FileInputStream("/log4j.properties"));
+//        	PropertyConfigurator.configure(props);
+        	BasicConfigurator.configure();
             // Unifica la interfaz para Mac y para Windows.
             UIManager.setLookAndFeel( UIManager.getCrossPlatformLookAndFeelClassName( ) );
             InterfazHotelAndes interfaz = new InterfazHotelAndes( );

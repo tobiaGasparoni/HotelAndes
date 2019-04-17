@@ -63,7 +63,8 @@ public class HotelAndes
 	 */
 	public TipoHabitacion adicionarTipoHabitacion(String nombre, String descripcion)
 	{
-        log.info ("Adicionando Tipo de habitacion: " + nombre + ": descripcion");
+		System.out.println("Entered here(HotelAndes)");
+        log.info ("Adicionando Tipo de habitacion con nombre " + nombre + " y descripcion " + descripcion);
         TipoHabitacion tipoHabitacion = pp.adicionarTipoHabitacion(nombre, descripcion);		
         log.info ("Adicionando Tipo de habitacion: " + tipoHabitacion);
         return tipoHabitacion;

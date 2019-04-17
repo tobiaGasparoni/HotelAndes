@@ -5,6 +5,7 @@ package main.java.hotelAndes.persistencia;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Properties;
 
 import javax.jdo.JDODataStoreException;
 import javax.jdo.JDOHelper;
@@ -102,56 +103,66 @@ public class PersistenciaHotelAndes {
 	
 	private PersistenciaHotelAndes()
 	{
-		pmf = JDOHelper.getPersistenceManagerFactory("HotelAndes");		
+		
+		Properties prop = new Properties();
+		prop.setProperty("javax.jdo.PersistenceManagerFactoryClass", "org.datanucleus.api.jdo.JDOPersistenceManagerFactory");
+		prop.setProperty("javax.jdo.option.ConnectionURL", "jdbc:oracle:thin:@fn3.oracle.virtual.uniandes.edu.co:1521:prod");
+		prop.setProperty("javax.jdo.option.ConnectionUserName", "ISIS2304B141910");
+		prop.setProperty("javax.jdo.option.ConnectionPassword", "dQmdYZwpZo");
+		prop.setProperty("javax.jdo.option.Mapping", "oracle");
+		prop.setProperty("javax.jdo.option.ConnectionDriverName", "oracle.jdbc.driver.OracleDriver");
+		prop.setProperty("datanucleus.schema.autoCreateAll", "false");
+		prop.setProperty("datanucleus.query.sql.allowAll", "true");
+		
+		pmf = JDOHelper.getPersistenceManagerFactory(prop);
 		crearClasesSQL ();
 		
 		// Define los nombres por defecto de las tablas de la base de datos
 		tablas = new LinkedList<String> ();
 		//0
-		tablas.add("HotelAndes_sequence");
+		tablas.add("HOTELANDES_SEQUENCE");
 		//1
-		tablas.add("CONSUMO");
+		tablas.add("CONSUMOS");
 		//2
-		tablas.add("CONVENCION");
+		tablas.add("CONVENCIONES");
 		//3
-		tablas.add("CUENTA");
+		tablas.add("CUENTAS");
 		//4
-		tablas.add("DOTACION");
+		tablas.add("DOTACIONES");
 		//5
-		tablas.add("HABITACION");
+		tablas.add("HABITACIONES");
 		//6
-		tablas.add("HOTEL");
+		tablas.add("HOTELES");
 		//7
 		tablas.add("INTERNET");
 		//8
-		tablas.add("HABITACION_TO_DOTACION");
+		tablas.add("JOIN_HABITACION_TO_DOTACION");
 		//9
-		tablas.add("PLAN_TO_HOTEL");
+		tablas.add("JOIN_PLAN_TO_HOTEL");
 		//10
-		tablas.add("PRODUCTO_TO_SERVICIO");
+		tablas.add("JOIN_PRODUCTO_TO_SERVICIO");
 		//11
-		tablas.add("MAQUINA");
+		tablas.add("MAQUINAS");
 		//12
-		tablas.add("PLAN");
+		tablas.add("PLANES");
 		//13
-		tablas.add("PRODUCTO");
+		tablas.add("PRODUCTOS");
 		//14
-		tablas.add("RESERVA_SERVICIO");
+		tablas.add("RESERVAS_SERVICIO");
 		//15
-		tablas.add("RESERVA");
+		tablas.add("RESERVAS");
 		//16
-		tablas.add("SERVICIO_COMODIDAD");
+		tablas.add("SERVICIOS_COMODIDAD");
 		//17
-		tablas.add("SERVICIO_HOTEL");
+		tablas.add("SERVICIOS_HOTEL");
 		//18
-		tablas.add("SERVICIO_PRODUCTOS");
+		tablas.add("SERVICIOS_PRODUCTOS");
 		//19
-		tablas.add("SERVICIO_SALON");
+		tablas.add("SERVICIOS_SALON");
 		//20
-		tablas.add("TIPO_HABITACION");
+		tablas.add("TIPOS_HABITACION");
 		//21
-		tablas.add("USUARIO");
-		
+		tablas.add("USUARIOS");
 	}
 	
 
@@ -162,9 +173,9 @@ public class PersistenciaHotelAndes {
 	private PersistenciaHotelAndes (JsonObject tableConfig)
 	{
 		crearClasesSQL ();
-		tablas = leerNombresTablas (tableConfig);
+		tablas = leerNombresTablas(tableConfig);
 		
-		String unidadPersistencia = tableConfig.get ("unidadPersistencia").getAsString ();
+		String unidadPersistencia = tableConfig.get("unidadPersistencia").getAsString ();
 		log.trace ("Accediendo unidad de persistencia: " + unidadPersistencia);
 		pmf = JDOHelper.getPersistenceManagerFactory (unidadPersistencia);
 	}
@@ -253,9 +264,9 @@ public class PersistenciaHotelAndes {
 	/**
 	 * @return La cadena de caracteres con el nombre del secuenciador de hotelAndes
 	 */
-	public String darSeqHotelAndes ()
+	public String darSeqHotelAndes()
 	{
-		return tablas.get (0);
+		return tablas.get(0);
 	}
 
     public String darTablaConsumo()
@@ -404,6 +415,7 @@ public class PersistenciaHotelAndes {
 	 */
 	public TipoHabitacion adicionarTipoHabitacion(String pNombre, String pDescripcion)
 	{
+		System.out.println("Entered here(PersistenciaHotelAndes)");
 		PersistenceManager pm = pmf.getPersistenceManager();
         Transaction tx=pm.currentTransaction();
         try

@@ -1,9 +1,9 @@
-﻿{
-	"title": "Nombres de las tablas de HotelAndes para la aplicación",
-	"unidadPersistencia": "HotelAndes",
+{
+	"title": "Nombres de las tablas de Parranderos Uniandes para la aplicaci�n A",
+	"unidadPersistencia": "Tobia",
 	"tablas":
 	[
-		"HotelAndes_sequence",
+		"HOTELANDES_SEQUENCE",
 		"CONSUMOS",
 		"CONVENCIONES",
 		"CUENTAS",
