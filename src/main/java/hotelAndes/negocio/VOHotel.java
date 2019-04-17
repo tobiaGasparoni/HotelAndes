@@ -51,37 +51,37 @@ public interface VOHotel
 	 * @return El servicio de internet que provee el hotel.
 	 * [internet, long], internet y el id del servicio de internet
 	 */
-	public Object[] getInternet();
+	public long getInternet();
 	
 	/**
 	 * @return el servicioHotel.
 	 * [ServicioHotel, nombre, descripcion] El servicioHotel, el nombre del servicio y la descripción.
 	 */
-	public List<Object[]> getServiciosHotel();
+	public List<Long> getServiciosHotel();
 	
 	/**
 	 * 
 	 * @return el servicioComodidad
 	 * [ServicioComodidad, nombre, descripcion] El servicioComodidad, el nombre del servicio y la descripción.
 	 */
-	public List<Object[]> getServiciosComodidad();
+	public List<Long> getServiciosComodidad();
 	
 	/**
 	 * [ServicioSalon,descripcion] El servicioSalon y la descripcion del salon.
 	 * @return el servicioSalon.
 	 */
-	public List<Object[]> getServiciosSalon();
+	public List<Long> getServiciosSalon();
 	
 	/**
 	 * [ServicioProductos, nombre, descripcion] El servicioProductos, nombre del servicio y la descripcion.
 	 * @return el servicio productos
 	 */
-	public List<Object[]> getServiciosProductos();
+	public List<Long> getServiciosProductos();
 	
 	/**
 	 * [plan, nombre, descripcion] El plan, el nombre y la descripcion.
 	 * @return el plan
 	 */
-	public List<Object[]> getPlanes();
+	public List<Long> getPlanes();
 	
 }

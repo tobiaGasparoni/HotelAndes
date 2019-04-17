@@ -33,7 +33,7 @@ public interface VOCuenta
 	 */
 	public double getCosto();
 	
-	public Object[] getReserva();
+	public long getIdReserva();
 	
-	public Object[] getHotel();
+	public long getIdHotel();
 }

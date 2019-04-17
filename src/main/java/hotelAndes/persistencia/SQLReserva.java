@@ -9,6 +9,7 @@ import java.util.List;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
+import main.java.hotelAndes.negocio.Habitacion;
 import main.java.hotelAndes.negocio.Reserva;
 
 /**
@@ -83,5 +84,26 @@ public class SQLReserva {
 		q.setResultClass(Reserva.class);
 		return (List<Reserva>) q.executeList();
 	}
+	
+	
+    public Long registrarLlegadaCliente (PersistenceManager pm, long idReserva, long idCuenta)
+    {
+    	Reserva reserva = darReservaPorId(pm, idReserva);
+    	
+    	SQLHabitacion sqlHabitacion= new SQLHabitacion(pp);
+    	
+    	Habitacion habitacion = sqlHabitacion.darHabitacionPorId(pm, reserva.getIdHabitacion());
+    	
+    	long idHabitacion = habitacion.getId();
+    	
+    	Query q1 =  pm.newQuery(SQL, "UPDATE "+ pp.darTablaHabitacion()+ " SET LLEGADA_CLIENTE = 1 WHERE ID = ? " );
+    	q1.setParameters(idHabitacion);
+    	
+    	SQLCuenta sqlCuenta = new SQLCuenta(pp);
+    	
+    	sqlCuenta.adicionarCuenta(pm, idCuenta, 0, 0, idReserva, habitacion.getIdHotel());
+    	
+    	return (long) q1.executeUnique();
+    }
 	
 }

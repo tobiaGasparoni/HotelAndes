@@ -61,13 +61,6 @@ public class HotelAndes
 	 * @param nombre - El nombre del tipo de bebida
 	 * @return El objeto TipoBebida adicionado. null si ocurre alguna Excepción
 	 */
-	public TipoHabitacion adicionarTipoHabitacion(String nombre, String descripcion)
-	{
-        log.info ("Adicionando Tipo de habitacion: " + nombre + ": descripcion");
-        TipoHabitacion tipoHabitacion = pp.adicionarTipoHabitacion(nombre, descripcion);		
-        log.info ("Adicionando Tipo de habitacion: " + tipoHabitacion);
-        return tipoHabitacion;
-	}
 	
 	
 	

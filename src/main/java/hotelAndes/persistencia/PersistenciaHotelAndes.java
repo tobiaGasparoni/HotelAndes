@@ -392,43 +392,4 @@ public class PersistenciaHotelAndes {
 	}
 	
 
-	/* ****************************************************************
-	 * 			Métodos para manejar los TIPOS DE HABITACION
-	 *****************************************************************/
-	
-	/**
-	 * Método que inserta, de manera transaccional, una tupla en la tabla TiposHabitacion
-	 * Adiciona entradas al log de la aplicación
-	 * @param nombre - El nombre del tipo de habitacion
-	 * @return El objeto TipoBebida adicionado. null si ocurre alguna Excepción
-	 */
-	public TipoHabitacion adicionarTipoHabitacion(String pNombre, String pDescripcion)
-	{
-		PersistenceManager pm = pmf.getPersistenceManager();
-        Transaction tx=pm.currentTransaction();
-        try
-        {
-            tx.begin();
-            long idTipoHabitacion = nextval();
-            long tuplasInsertadas = sqlTipoHabitacion.adicionarTipoHabitacion(pm, idTipoHabitacion, pNombre, pDescripcion);
-            tx.commit();
-            
-            log.trace("Inserción de tipo de habitacion: " + pNombre + " y descripcion: " + pDescripcion + ": " + tuplasInsertadas + " tuplas insertadas");
-            
-            return new TipoHabitacion(idTipoHabitacion, pNombre, pDescripcion);
-        }
-        catch (Exception e)
-        {
-        	log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
-        	return null;
-        }
-        finally
-        {
-            if (tx.isActive())
-            {
-                tx.rollback();
-            }
-            pm.close();
-        }
-	}
 }

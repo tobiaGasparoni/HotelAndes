@@ -4,7 +4,6 @@
 package main.java.hotelAndes.negocio;
 
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -37,39 +36,42 @@ public class Reserva implements VOReserva {
 	 */
 	private int numeroPersonas;
 	
-    private List<Object[]> clientes;
-    
-    private Object[] cuenta;
-    
+	private long planPago;
+	
+	private String tipoDocumento;
+	
+	private String documento;
+	
+	private String tipo;
+	
 	private long idHabitacion;
 	
-	/* ****************************************************************
-	 * 			Métodos 
-	 *****************************************************************/
-	/**
-	 * Constructor por defecto
-	 */
-	
-	
+	private long idConvencion;
 
 	/**
 	 * @param id
 	 * @param fechaEntrada
 	 * @param fechaSalida
 	 * @param numeroPersonas
-	 * @param clientes
-	 * @param cuenta
+	 * @param planPago
+	 * @param tipoDocumento
+	 * @param documento
+	 * @param tipo
 	 * @param idHabitacion
+	 * @param idConvencion
 	 */
-	public Reserva(int id, Timestamp fechaEntrada, Timestamp fechaSalida, int numeroPersonas, List<Object[]> clientes,
-			Object[] cuenta, int idHabitacion) {
+	public Reserva(long id, Timestamp fechaEntrada, Timestamp fechaSalida, int numeroPersonas, long planPago,
+			String tipoDocumento, String documento, String tipo, long idHabitacion, long idConvencion) {
 		this.id = id;
 		this.fechaEntrada = fechaEntrada;
 		this.fechaSalida = fechaSalida;
 		this.numeroPersonas = numeroPersonas;
-		this.clientes = clientes;
-		this.cuenta = cuenta;
+		this.planPago = planPago;
+		this.tipoDocumento = tipoDocumento;
+		this.documento = documento;
+		this.tipo = tipo;
 		this.idHabitacion = idHabitacion;
+		this.idConvencion = idConvencion;
 	}
 
 	public long getId() {
@@ -104,20 +106,36 @@ public class Reserva implements VOReserva {
 		this.numeroPersonas = numeroPersonas;
 	}
 
-	public List<Object[]> getClientes() {
-		return clientes;
+	public long getPlanPago() {
+		return planPago;
 	}
 
-	public void setClientes(List<Object[]> clientes) {
-		this.clientes = clientes;
+	public void setPlanPago(long planPago) {
+		this.planPago = planPago;
 	}
 
-	public Object[] getCuenta() {
-		return cuenta;
+	public String getTipoDocumento() {
+		return tipoDocumento;
 	}
 
-	public void setCuenta(Object[] cuenta) {
-		this.cuenta = cuenta;
+	public void setTipoDocumento(String tipoDocumento) {
+		this.tipoDocumento = tipoDocumento;
+	}
+
+	public String getDocumento() {
+		return documento;
+	}
+
+	public void setDocumento(String documento) {
+		this.documento = documento;
+	}
+
+	public String getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
 	}
 
 	public long getIdHabitacion() {
@@ -127,7 +145,13 @@ public class Reserva implements VOReserva {
 	public void setIdHabitacion(long idHabitacion) {
 		this.idHabitacion = idHabitacion;
 	}
-	
-	
+
+	public long getIdConvencion() {
+		return idConvencion;
+	}
+
+	public void setIdConvencion(long idConvencion) {
+		this.idConvencion = idConvencion;
+	}
 	
 }

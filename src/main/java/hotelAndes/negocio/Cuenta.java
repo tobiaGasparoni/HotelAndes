@@ -27,17 +27,23 @@ public class Cuenta implements VOCuenta {
 	 */
 	private double costo;
 	
-	private Object[] reserva;
+	private long idReserva;
 	
-	private Object[] hotel;
+	private long idHotel;
 
-	public Cuenta(long id, boolean pagada, double costo, Object[] reserva, Object[] hotel) {
-		super();
+	/**
+	 * @param id
+	 * @param pagada
+	 * @param costo
+	 * @param idReserva
+	 * @param idHotel
+	 */
+	public Cuenta(long id, boolean pagada, double costo, long idReserva, long idHotel) {
 		this.id = id;
 		this.pagada = pagada;
 		this.costo = costo;
-		this.reserva = reserva;
-		this.hotel = hotel;
+		this.idReserva = idReserva;
+		this.idHotel = idHotel;
 	}
 
 	public long getId() {
@@ -64,21 +70,20 @@ public class Cuenta implements VOCuenta {
 		this.costo = costo;
 	}
 
-	public Object[] getReserva() {
-		return reserva;
+	public long getIdReserva() {
+		return idReserva;
 	}
 
-	public void setReserva(Object[] reserva) {
-		this.reserva = reserva;
+	public void setIdReserva(long idReserva) {
+		this.idReserva = idReserva;
 	}
 
-	public Object[] getHotel() {
-		return hotel;
+	public long getIdHotel() {
+		return idHotel;
 	}
 
-	public void setHotel(Object[] hotel) {
-		this.hotel = hotel;
+	public void setIdHotel(long idHotel) {
+		this.idHotel = idHotel;
 	}
-	
-
+    
 }
