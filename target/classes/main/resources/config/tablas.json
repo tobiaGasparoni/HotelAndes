@@ -1,0 +1,29 @@
+﻿{
+	"title": "Nombres de las tablas de HotelAndes para la aplicación",
+	"unidadPersistencia": "HotelAndes",
+	"tablas":
+	[
+		"HotelAndes_sequence",
+		"CONSUMOS",
+		"CONVENCIONES",
+		"CUENTAS",
+		"DOTACIONES",
+		"HABITACIONES",
+		"HOTELES",
+		"INTERNET",
+		"JOIN_HABITACION_TO_DOTACION",
+		"JOIN_PLAN_TO_HOTEL",
+		"JOIN_PRODUCTO_TO_SERVICIO",
+		"MAQUINAS",
+		"PLANES",
+		"PRODUCTOS",
+		"RESERVAS",
+		"RESERVAS_SERVICIO",
+		"SERVICIOS_COMODIDAD",
+		"SERVICIOS_HOTEL",
+		"SERVICIOS_PRODUCTOS",
+		"SERVICIOS_SALON",
+		"TIPOS_HABITACION",
+		"USUARIOS"
+	]
+}
