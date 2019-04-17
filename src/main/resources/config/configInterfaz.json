@@ -26,6 +26,35 @@
 				}
 			]
 		},
+		{ "menuTitle": "Consultas",
+		  "options":
+			[
+				{
+					"label": "Dinero Por Habitacion",
+					"event": "dineroRecolectadoPorHabitacion"
+				},
+				{
+					"label": "Servicios Mas Populares",
+					"event": "serviciosMasPopulares"
+				},
+				{
+					"label": "Indice Ocupacion Habitaciones",
+					"event": "ocupacionHabitaciones"
+				},
+				{
+					"label": "Consumos de un usuario dado",
+					"event": "consumosUsuario"
+				},
+				{
+					"label": "Analisis de Fechas HotelAndes",
+					"event": "analisisFechasHotelAndes"
+				},
+				{
+					"label": "Buenos Clientes",
+					"event": "buenosClientes"
+				}
+			]
+		},
 		{ "menuTitle": "Mantenimiento",
 		  "options":
 			[

@@ -4,6 +4,7 @@
 package main.java.hotelAndes.negocio;
 
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
 import java.util.List;
 
 
@@ -54,6 +55,13 @@ public class TipoHabitacion implements VOTipoHabitacion
 		this.descripcion = descripcion;
 		this.habitaciones = habitaciones;
 	}
+	
+	public TipoHabitacion(BigDecimal id, String nombre, String descripcion) {
+		this.id = id.intValue();
+		this.nombre = nombre;
+		this.descripcion = descripcion;
+		this.habitaciones = habitaciones;
+	}
 
 	public long getId() {
 		return id;
@@ -75,7 +83,7 @@ public class TipoHabitacion implements VOTipoHabitacion
 		return descripcion;
 	}
 
-	public void setDescripcion(String descripcion) {
+	public void setdescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
 
@@ -116,5 +124,5 @@ public class TipoHabitacion implements VOTipoHabitacion
 		  result.append("}");
 
 		  return result.toString();
-		}
+	}
 }

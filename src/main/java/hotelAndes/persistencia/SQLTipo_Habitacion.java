@@ -77,7 +77,7 @@ public class SQLTipo_Habitacion {
 		return (TipoHabitacion) q.executeUnique();
 	}
 	
-	public List<TipoHabitacion> darTipoHabitacions (PersistenceManager pm)
+	public List<TipoHabitacion> darTiposHabitacion (PersistenceManager pm)
 	{
 		Query q = pm.newQuery(SQL, "SELECT * FROM " + pp.darTablaTipoHabitacion());
 		q.setResultClass(TipoHabitacion.class);
