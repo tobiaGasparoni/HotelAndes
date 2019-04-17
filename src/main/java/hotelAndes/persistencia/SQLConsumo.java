@@ -10,6 +10,7 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
 import main.java.hotelAndes.negocio.Consumo;
+import main.java.hotelAndes.negocio.Reserva;
 
 /**
  * @author Julián Mendoza
@@ -48,11 +49,23 @@ public class SQLConsumo {
 	/**
 	 * Crea y ejecuta la sentencia SQL para adicionar un CONSUMO
 	 */
-	public long adicionarConsumo (PersistenceManager pm, long idConsumo, Timestamp fecha, double costo, String descripcion, long idServicioComodidad, long idServicioHotel, long idServicioProductos,long idServicioSalon, long idHabitacion) 
+	public long[] adicionarConsumo (PersistenceManager pm, long idConsumo, Timestamp fecha, double costo, String descripcion, long idServicioComodidad, long idServicioHotel, long idServicioProductos,long idServicioSalon, long idHabitacion) 
 	{
-        Query q = pm.newQuery(SQL, "INSERT INTO " + pp.darTablaConsumo() + "(id, fecha, costo, descripcion, id_servicio_comodidad,id_servicio_hotel,id_servicio_productos,id_servicio_salon,id_habitacion) values (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        q.setParameters(idConsumo,fecha,costo,descripcion,idServicioComodidad,idServicioHotel,idServicioProductos,idServicioSalon,idHabitacion);
-        return (long) q.executeUnique();
+        Query q1 = pm.newQuery(SQL, "INSERT INTO " + pp.darTablaConsumo() + "(id, fecha, costo, descripcion, id_servicio_comodidad,id_servicio_hotel,id_servicio_productos,id_servicio_salon,id_habitacion) values (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        q1.setParameters(idConsumo,fecha,costo,descripcion,idServicioComodidad,idServicioHotel,idServicioProductos,idServicioSalon,idHabitacion);
+        
+        SQLReserva sqlReseva = new SQLReserva(pp);
+        
+        Reserva reserva = sqlReseva.darReservaPorHabitacionYFecha(pm, idHabitacion, fecha);
+        
+        Query q2 = pm.newQuery(SQL, "UPDATE "+ pp.darTablaCuenta() + "SET COSTO = COSTO + ? WHERE RESERVA_ID = ? ");
+        q2.setParameters(costo, reserva.getId());
+        
+        long adicionConsumo = (long) q1.executeUnique();
+        
+        long sumarCostoCuenta = (long) q2.executeUnique();
+        
+        return new long [] {adicionConsumo,sumarCostoCuenta};
 	}
 	
 	/**
@@ -82,6 +95,7 @@ public class SQLConsumo {
 		q.setResultClass(Consumo.class);
 		return (List<Consumo>) q.executeList();
 	}
+	
 	
 	
 }

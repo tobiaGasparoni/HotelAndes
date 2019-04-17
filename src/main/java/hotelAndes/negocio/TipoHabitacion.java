@@ -30,37 +30,22 @@ public class TipoHabitacion implements VOTipoHabitacion
 	 * La descripcion del tipo de habitacion
 	 */
 	private String descripcion;
-
-	/**
-	 * Las habitaciones de este tipo
-	 */
-	private List<Long> habitaciones;
-
+	
 	/**
 	 * @param id
 	 * @param nombre
 	 * @param descripcion
-	 * @param habitaciones
 	 */
-	public TipoHabitacion(long id, String nombre, String descripcion, List<Long> habitaciones) {
-		this.id = id;
-		this.nombre = nombre;
-		this.descripcion = descripcion;
-		this.habitaciones = habitaciones;
-	}
-	
 	public TipoHabitacion(long id, String nombre, String descripcion) {
 		this.id = id;
 		this.nombre = nombre;
 		this.descripcion = descripcion;
-		this.habitaciones = habitaciones;
 	}
 	
 	public TipoHabitacion(BigDecimal id, String nombre, String descripcion) {
 		this.id = id.intValue();
 		this.nombre = nombre;
 		this.descripcion = descripcion;
-		this.habitaciones = habitaciones;
 	}
 
 	public long getId() {
@@ -83,18 +68,10 @@ public class TipoHabitacion implements VOTipoHabitacion
 		return descripcion;
 	}
 
-	public void setdescripcion(String descripcion) {
+	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
 
-	public List<Long> getHabitaciones() {
-		return habitaciones;
-	}
-
-	public void setHabitaciones(List<Long> habitaciones) {
-		this.habitaciones = habitaciones;
-	}
-	
 	@Override
 	public String toString()
 	{

@@ -19,27 +19,18 @@ public class Convencion implements VOConvencion {
 	private Timestamp fechaInicio;
 	
 	private Timestamp fechaFin;
-	
-	private List<Long> reservas;
-	
-	private List<Long> reservasServicios;
 
 	/**
 	 * @param id
 	 * @param nombre
 	 * @param fechaInicio
 	 * @param fechaFin
-	 * @param reservas
-	 * @param reservasServicios
 	 */
-	public Convencion(long id, String nombre, Timestamp fechaInicio, Timestamp fechaFin, List<Long> reservas,
-			List<Long> reservasServicios) {
+	public Convencion(long id, String nombre, Timestamp fechaInicio, Timestamp fechaFin) {
 		this.id = id;
 		this.nombre = nombre;
 		this.fechaInicio = fechaInicio;
 		this.fechaFin = fechaFin;
-		this.reservas = reservas;
-		this.reservasServicios = reservasServicios;
 	}
 
 	public long getId() {
@@ -73,23 +64,6 @@ public class Convencion implements VOConvencion {
 	public void setFechaFin(Timestamp fechaFin) {
 		this.fechaFin = fechaFin;
 	}
-
-	public List<Long> getReservas() {
-		return reservas;
-	}
-
-	public void setReservas(List<Long> reservas) {
-		this.reservas = reservas;
-	}
-
-	public List<Long> getReservasServicios() {
-		return reservasServicios;
-	}
-
-	public void setReservasServicios(List<Long> reservasServicios) {
-		this.reservasServicios = reservasServicios;
-	}
-
 
 	
 }

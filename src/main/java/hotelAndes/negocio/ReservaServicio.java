@@ -34,22 +34,22 @@ public class ReservaServicio implements VOReservaServicio {
 	
 	private String tipo;
 	
-	private long hotelId;
+	private long idHotel;
 
-	private long convencion;
+	private long idConvencion;
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + (int) (convencion ^ (convencion >>> 32));
+		result = prime * result + (int) (idConvencion ^ (idConvencion >>> 32));
 		long temp;
 		temp = Double.doubleToLongBits(costo);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result + ((descripcion == null) ? 0 : descripcion.hashCode());
 		result = prime * result + ((documento == null) ? 0 : documento.hashCode());
 		result = prime * result + ((fecha == null) ? 0 : fecha.hashCode());
-		result = prime * result + (int) (hotelId ^ (hotelId >>> 32));
+		result = prime * result + (int) (idHotel ^ (idHotel >>> 32));
 		result = prime * result + (int) (id ^ (id >>> 32));
 		result = prime * result + (int) (idServicio ^ (idServicio >>> 32));
 		result = prime * result + ((nombreEmpleado == null) ? 0 : nombreEmpleado.hashCode());
@@ -69,7 +69,7 @@ public class ReservaServicio implements VOReservaServicio {
 		if (getClass() != obj.getClass())
 			return false;
 		ReservaServicio other = (ReservaServicio) obj;
-		if (convencion != other.convencion)
+		if (idConvencion != other.idConvencion)
 			return false;
 		if (Double.doubleToLongBits(costo) != Double.doubleToLongBits(other.costo))
 			return false;
@@ -88,7 +88,7 @@ public class ReservaServicio implements VOReservaServicio {
 				return false;
 		} else if (!fecha.equals(other.fecha))
 			return false;
-		if (hotelId != other.hotelId)
+		if (idHotel != other.idHotel)
 			return false;
 		if (id != other.id)
 			return false;
@@ -117,6 +117,39 @@ public class ReservaServicio implements VOReservaServicio {
 		} else if (!tipoServicio.equals(other.tipoServicio))
 			return false;
 		return true;
+	}
+
+	/**
+	 * @param id
+	 * @param costo
+	 * @param descripcion
+	 * @param fecha
+	 * @param nombreEmpleado
+	 * @param numClientes
+	 * @param tipoServicio
+	 * @param idServicio
+	 * @param tipoDocumento
+	 * @param documento
+	 * @param tipo
+	 * @param idHotel
+	 * @param idConvencion
+	 */
+	public ReservaServicio(long id, double costo, String descripcion, Timestamp fecha, String nombreEmpleado,
+			int numClientes, String tipoServicio, long idServicio, String tipoDocumento, String documento, String tipo,
+			long idHotel, long idConvencion) {
+		this.id = id;
+		this.costo = costo;
+		this.descripcion = descripcion;
+		this.fecha = fecha;
+		this.nombreEmpleado = nombreEmpleado;
+		this.numClientes = numClientes;
+		this.tipoServicio = tipoServicio;
+		this.idServicio = idServicio;
+		this.tipoDocumento = tipoDocumento;
+		this.documento = documento;
+		this.tipo = tipo;
+		this.idHotel = idHotel;
+		this.idConvencion = idConvencion;
 	}
 
 	public long getId() {
@@ -207,21 +240,22 @@ public class ReservaServicio implements VOReservaServicio {
 		this.tipo = tipo;
 	}
 
-	public long getHotelId() {
-		return hotelId;
+	public long getIdHotel() {
+		return idHotel;
 	}
 
-	public void setHotelId(long hotelId) {
-		this.hotelId = hotelId;
+	public void setIdHotel(long idHotel) {
+		this.idHotel = idHotel;
 	}
 
-	public long getConvencion() {
-		return convencion;
+	public long getIdConvencion() {
+		return idConvencion;
 	}
 
-	public void setConvencion(long convencion) {
-		this.convencion = convencion;
+	public void setIdConvencion(long idConvencion) {
+		this.idConvencion = idConvencion;
 	}
+	
 
 
 	

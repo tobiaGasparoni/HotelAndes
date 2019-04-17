@@ -66,6 +66,13 @@ public class SQLReserva_Servicio {
         return (long) q.executeUnique();            
 	}
 	
+	public long eliminarReservaServicioPorIdConvencion(PersistenceManager pm, long idConvencion)
+	{
+		Query q = pm.newQuery(SQL, "DELETE FROM " + pp.darTablaReservaServicio()+ " WHERE CONVENCION_ID = ? ");
+		q.setParameters(idConvencion);
+		return (long) q.executeUnique();
+	}
+	
 	/**
 	 * @return El objeto ReservaServicio que tiene el identificador dado
 	 */
@@ -75,6 +82,15 @@ public class SQLReserva_Servicio {
 		q.setResultClass(ReservaServicio.class);
 		q.setParameters(idReservaServicio);
 		return (ReservaServicio) q.executeUnique();
+	}
+	
+	public List<ReservaServicio> darReservasServicioPorIdConvencion (PersistenceManager pm, long idConvencion)
+	{
+		Query q = pm.newQuery(SQL, "SELECT * FROM "+ pp.darTablaReservaServicio() + " WHERE CONVENCION_ID = ?");
+		q.setResultClass(ReservaServicio.class);
+		q.setParameters(idConvencion);
+		return (List<ReservaServicio>) q.executeList();
+				
 	}
 	
 	public List<ReservaServicio> darReservaServicios (PersistenceManager pm)

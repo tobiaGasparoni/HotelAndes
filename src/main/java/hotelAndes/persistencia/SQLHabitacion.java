@@ -4,6 +4,8 @@
 package main.java.hotelAndes.persistencia;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.jdo.PersistenceManager;
@@ -82,6 +84,46 @@ public class SQLHabitacion {
 		Query q = pm.newQuery(SQL, "SELECT * FROM " + pp.darTablaHabitacion());
 		q.setResultClass(Habitacion.class);
 		return (List<Habitacion>) q.executeList();
+	}
+	
+	public long entradaEnMantenimiento (PersistenceManager pm, long idHabitacion)
+	{
+		Query q= pm.newQuery(SQL, "UPDATE "+ pp.darTablaHabitacion() + " SET EN_MANTENIMIENTO = 1 WHERE ID = ?");
+		q.setParameters(idHabitacion);
+		return (long)q.executeUnique();
+	}
+	
+	public long salidaEnMantenimiento(PersistenceManager pm, long idHabitacion)
+	{
+		Query q = pm.newQuery(SQL, "UPDATE "+ pp.darTablaHabitacion()+ " SET EN_MANTENIMIENTO = 0 WHERE ID = ? ");
+        q.setParameters(idHabitacion);
+        return (long)q.executeUnique();
+	}
+	
+	public List<Long> entradaMultipleEnMantenimiento (PersistenceManager pm, List<Long> idHabitaciones)
+	{
+		Iterator<Long> iter = idHabitaciones.iterator();
+		SQLHabitacion sqlHabitacion = new SQLHabitacion(pp);
+		List<Long> lista = new ArrayList<>();
+		while(iter.hasNext())
+		{
+			lista.add(sqlHabitacion.entradaEnMantenimiento(pm, iter.next()));
+		}
+		
+		return lista;
+	}
+	
+	public List<Long> salidaMultipleEnMantenimiento (PersistenceManager pm, List<Long> idHabitaciones)
+	{
+		Iterator<Long> iter = idHabitaciones.iterator();
+		SQLHabitacion sqlHabitacion = new SQLHabitacion(pp);
+		List<Long> lista = new ArrayList<>();
+		while(iter.hasNext())
+		{
+			lista.add(sqlHabitacion.salidaEnMantenimiento(pm, iter.next()));
+		}
+		
+		return lista;
 	}
 	
 	
