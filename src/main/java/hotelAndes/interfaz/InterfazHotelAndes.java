@@ -42,17 +42,17 @@ public class InterfazHotelAndes extends JFrame implements ActionListener
 	/**
 	 * Logger para escribir la traza de la ejecución
 	 */
-	//private static Logger log = Logger.getLogger(InterfazHotelAndes.class.getName());
+	private static Logger log = Logger.getLogger(InterfazHotelAndes.class.getName());
 	
 	/**
 	 * Ruta al archivo de configuración de la interfaz
 	 */
-	private static final String CONFIG_INTERFAZ = "./src/main/resources/config/configInterfaz.json"; 
+	private static final String CONFIG_INTERFAZ = ".src/main/resources/config/configInterfaz.json";
 	
 	/**
 	 * Ruta al archivo de configuración de los nombres de tablas de la base de datos
 	 */
-	private static final String CONFIG_TABLAS = "./src/main/resources/config/tablas.json"; 
+	private static final String CONFIG_TABLAS = ".src/main/resources/config/tablas.json"; 
 	
 	/* ****************************************************************
 	 * 			Atributos
@@ -134,12 +134,12 @@ public class InterfazHotelAndes extends JFrame implements ActionListener
 			FileReader file = new FileReader (archConfig);
 			JsonReader reader = new JsonReader ( file );
 			config = gson.fromJson(reader, JsonObject.class);
-			//log.info ("Se encontró un archivo de configuración válido: " + tipo);
+			log.info ("Se encontró un archivo de configuración válido: " + tipo);
 		} 
 		catch (Exception e)
 		{
 //			e.printStackTrace ();
-			//log.info ("NO se encontró un archivo de configuración válido");			
+			log.info ("NO se encontró un archivo de configuración válido");			
 			JOptionPane.showMessageDialog(null, "No se encontró un archivo de configuración de interfaz válido: " + tipo, "HotelAndes", JOptionPane.ERROR_MESSAGE);
 		}	
         return config;
@@ -156,14 +156,14 @@ public class InterfazHotelAndes extends JFrame implements ActionListener
     	
     	if ( guiConfig == null )
     	{
-    		//log.info ( "Se aplica configuración por defecto" );			
+    		log.info ( "Se aplica configuración por defecto" );			
 			titulo = "HotelAndes Default";
 			alto = 300;
 			ancho = 500;
     	}
     	else
     	{
-			//log.info ( "Se aplica configuración indicada en el archivo de configuración" );
+			log.info ( "Se aplica configuración indicada en el archivo de configuración" );
     		titulo = guiConfig.get("title").getAsString();
 			alto= guiConfig.get("frameH").getAsInt();
 			ancho = guiConfig.get("frameW").getAsInt();
@@ -519,6 +519,8 @@ public class InterfazHotelAndes extends JFrame implements ActionListener
      */
     public static void main( String[] args )
     {
+    	//CONFIG_INTERFAZ
+    	System.out.println();
         try
         {
             // Unifica la interfaz para Mac y para Windows.
