@@ -48,13 +48,15 @@ public interface VOHabitacion
 	
 	/**
 	 * 
+	 * @return El tipo de habitacion
+	 */
+	public long getTipo();
+	
+	public long getIdHotel();
+
+	/**
+	 * 
 	 * @return Si está en mantenimiento
 	 */
 	public boolean isEnMantenimiento();
-	
-	/**
-	 * 
-	 * @return El tipo de habitacion
-	 */
-	public long getIdTipoHabitacion();
 }

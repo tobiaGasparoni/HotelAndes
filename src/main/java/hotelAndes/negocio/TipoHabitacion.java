@@ -33,7 +33,7 @@ public class TipoHabitacion implements VOTipoHabitacion
 	/**
 	 * Las habitaciones de este tipo
 	 */
-	private List<Object[]> habitaciones;
+	private List<Long> habitaciones;
 
 	/**
 	 * @param id
@@ -41,22 +41,11 @@ public class TipoHabitacion implements VOTipoHabitacion
 	 * @param descripcion
 	 * @param habitaciones
 	 */
-	public TipoHabitacion(long id, String nombre, String descripcion, List<Object[]> habitaciones) {
+	public TipoHabitacion(long id, String nombre, String descripcion, List<Long> habitaciones) {
 		this.id = id;
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 		this.habitaciones = habitaciones;
-	}
-	
-	/**
-	 * @param id
-	 * @param nombre
-	 * @param descripcion
-	 */
-	public TipoHabitacion(long id, String nombre, String descripcion) {
-		this.id = id;
-		this.nombre = nombre;
-		this.descripcion = descripcion;
 	}
 
 	public long getId() {
@@ -83,11 +72,11 @@ public class TipoHabitacion implements VOTipoHabitacion
 		this.descripcion = descripcion;
 	}
 
-	public List<Object[]> getHabitaciones() {
+	public List<Long> getHabitaciones() {
 		return habitaciones;
 	}
 
-	public void setHabitaciones(List<Object[]> habitaciones) {
+	public void setHabitaciones(List<Long> habitaciones) {
 		this.habitaciones = habitaciones;
 	}
 	

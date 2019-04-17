@@ -230,36 +230,36 @@ public class InterfazHotelAndes extends JFrame implements ActionListener
      * Adiciona un tipo de habitacion con la información dada por el usuario
      * Se crea una nueva tupla de tipoHabitacion en la base de datos, si un tipo de bebida con ese nombre no existía
      */
-    public void adicionarTipoHabitacion( )
-    {
-    	try 
-    	{
-    		String nombreTipo = JOptionPane.showInputDialog (this, "Nombre del tipo de habitacion?", "Adicionar tipo de habitacion", JOptionPane.QUESTION_MESSAGE);
-    		String descripcionTipo = JOptionPane.showInputDialog (this, "Descripcion del tipo de habitacion?", "Adicionar tipo de habitacion", JOptionPane.QUESTION_MESSAGE);
-    		if (nombreTipo != null && descripcionTipo != null)
-    		{
-        		VOTipoHabitacion th = hotelAndes.adicionarTipoHabitacion(nombreTipo, descripcionTipo);
-        		if (th == null)
-        		{
-        			throw new Exception("No se pudo crear un tipo de habitacion con nombre: " + nombreTipo + " y descripcion " + descripcionTipo);
-        		}
-        		String resultado = "En adicionarTipoHabitacion\n\n";
-        		resultado += "Tipo de habitacion adicionado exitosamente: " + th;
-    			resultado += "\n Operación terminada";
-    			panelDatos.actualizarInterfaz(resultado);
-    		}
-    		else
-    		{
-    			panelDatos.actualizarInterfaz("Operación cancelada por el usuario");
-    		}
-		} 
-    	catch (Exception e) 
-    	{
-//			e.printStackTrace();
-			String resultado = generarMensajeError(e);
-			panelDatos.actualizarInterfaz(resultado);
-		}
-    }
+//    public void adicionarTipoHabitacion( )
+//    {
+//    	try 
+//    	{
+//    		String nombreTipo = JOptionPane.showInputDialog (this, "Nombre del tipo de habitacion?", "Adicionar tipo de habitacion", JOptionPane.QUESTION_MESSAGE);
+//    		String descripcionTipo = JOptionPane.showInputDialog (this, "Descripcion del tipo de habitacion?", "Adicionar tipo de habitacion", JOptionPane.QUESTION_MESSAGE);
+//    		if (nombreTipo != null && descripcionTipo != null)
+//    		{
+//        		VOTipoHabitacion th = hotelAndes.adicionarTipoHabitacion(nombreTipo, descripcionTipo);
+//        		if (th == null)
+//        		{
+//        			throw new Exception("No se pudo crear un tipo de habitacion con nombre: " + nombreTipo + " y descripcion " + descripcionTipo);
+//        		}
+//        		String resultado = "En adicionarTipoHabitacion\n\n";
+//        		resultado += "Tipo de habitacion adicionado exitosamente: " + th;
+//    			resultado += "\n Operación terminada";
+//    			panelDatos.actualizarInterfaz(resultado);
+//    		}
+//    		else
+//    		{
+//    			panelDatos.actualizarInterfaz("Operación cancelada por el usuario");
+//    		}
+//		} 
+//    	catch (Exception e) 
+//    	{
+////			e.printStackTrace();
+//			String resultado = generarMensajeError(e);
+//			panelDatos.actualizarInterfaz(resultado);
+//		}
+//    }
     
     
     /* ****************************************************************

@@ -31,23 +31,16 @@ public interface VOReserva
 	
 	public int getNumeroPersonas();
 	
-	/**
-	 * [Cliente, documento, tipoDocumento] cliente, documento del cliente, tipo del cliente.
-	 * @return los clientes de la reserva
-	 */
-	public List<Object[]> getClientes();
+	public long getPlanPago();
 	
-	/**
-	 * [cuenta, costo] La cuenta y el costo de la cuenta
-	 * @return la cuenta para la reserva
-	 */
-	public Object[] getCuenta();
+	public String getTipoDocumento();
 	
+	public String getDocumento();
 	
-	/**
-	 * El id de la habitacion reservada
-	 * @return idHabitacion
-	 */
+	public String getTipo();
+	
 	public long getIdHabitacion();
+	
+	public long getIdConvencion();
 
 }

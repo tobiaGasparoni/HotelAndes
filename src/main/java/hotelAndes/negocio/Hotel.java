@@ -43,18 +43,18 @@ public class Hotel implements VOHotel {
 	/**
 	 *  [internet, long], internet y el id del servicio de internet
 	 */
-	private Object[] internet;
+	private long internet;
 	
 	
-	private List<Object[]> serviciosHotel;
+	private List<Long> serviciosHotel;
 	
-	private List<Object[]> serviciosComodidad;
+	private List<Long> serviciosComodidad;
 	
-	private List<Object[]> serviciosSalon;
+	private List<Long> serviciosSalon;
 	
-	private List<Object[]> serviciosProductos;
+	private List<Long> serviciosProductos;
 	
-	private List<Object[]> planes;
+	private List<Long> planes;
 
 	/**
 	 * @param id
@@ -69,9 +69,9 @@ public class Hotel implements VOHotel {
 	 * @param serviciosProductos
 	 * @param planes
 	 */
-	public Hotel(long id, String nombre, String pais, String ciudad, String direccion, Object[] internet,
-			List<Object[]> serviciosHotel, List<Object[]> serviciosComodidad, List<Object[]> serviciosSalon,
-			List<Object[]> serviciosProductos, List<Object[]> planes) {
+	public Hotel(long id, String nombre, String pais, String ciudad, String direccion, long internet,
+			List<Long> serviciosHotel, List<Long> serviciosComodidad, List<Long> serviciosSalon,
+			List<Long> serviciosProductos, List<Long> planes) {
 		this.id = id;
 		this.nombre = nombre;
 		this.pais = pais;
@@ -125,53 +125,54 @@ public class Hotel implements VOHotel {
 		this.direccion = direccion;
 	}
 
-	public Object[] getInternet() {
+	public long getInternet() {
 		return internet;
 	}
 
-	public void setInternet(Object[] internet) {
+	public void setInternet(long internet) {
 		this.internet = internet;
 	}
 
-	public List<Object[]> getServiciosHotel() {
+	public List<Long> getServiciosHotel() {
 		return serviciosHotel;
 	}
 
-	public void setServiciosHotel(List<Object[]> serviciosHotel) {
+	public void setServiciosHotel(List<Long> serviciosHotel) {
 		this.serviciosHotel = serviciosHotel;
 	}
 
-	public List<Object[]> getServiciosComodidad() {
+	public List<Long> getServiciosComodidad() {
 		return serviciosComodidad;
 	}
 
-	public void setServiciosComodidad(List<Object[]> serviciosComodidad) {
+	public void setServiciosComodidad(List<Long> serviciosComodidad) {
 		this.serviciosComodidad = serviciosComodidad;
 	}
 
-	public List<Object[]> getServiciosSalon() {
+	public List<Long> getServiciosSalon() {
 		return serviciosSalon;
 	}
 
-	public void setServiciosSalon(List<Object[]> serviciosSalon) {
+	public void setServiciosSalon(List<Long> serviciosSalon) {
 		this.serviciosSalon = serviciosSalon;
 	}
 
-	public List<Object[]> getServiciosProductos() {
+	public List<Long> getServiciosProductos() {
 		return serviciosProductos;
 	}
 
-	public void setServiciosProductos(List<Object[]> serviciosProductos) {
+	public void setServiciosProductos(List<Long> serviciosProductos) {
 		this.serviciosProductos = serviciosProductos;
 	}
 
-	public List<Object[]> getPlanes() {
+	public List<Long> getPlanes() {
 		return planes;
 	}
 
-	public void setPlanes(List<Object[]> planes) {
+	public void setPlanes(List<Long> planes) {
 		this.planes = planes;
 	}
+
 
 
 

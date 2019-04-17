@@ -34,11 +34,11 @@ public interface VOReservaServicio {
 	
 	public String getTipo();
 	
-	public Object[] getHotelId();
+	public long getHotelId();
 	
 	/**
 	 * [Convencion, nombre]
 	 * @return la convencion a la que puede pertenecer
 	 */
-	public Object[] getConvencion();
+	public long getConvencion();
 }

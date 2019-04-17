@@ -402,7 +402,6 @@ public class PersistenciaHotelAndes {
 		return resp;
 	}
 	
-
 	/* ****************************************************************
 	 * 			Métodos para manejar los TIPOS DE HABITACION
 	 *****************************************************************/

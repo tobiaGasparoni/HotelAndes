@@ -24,11 +24,11 @@ public interface VOConvencion {
 	 * [Reserva, fechaentrada, fechaSalida]
 	 * @return reservas asociadas a la convencion
 	 */
-	public List<Object[]> getReservas();
+	public List<Long> getReservas();
 	
 	/**
 	 * [ReservaServicio, descripcion, tipoServicio]
 	 * @return reserva del servicio del hotel para la convencion
 	 */
-	public List<Object[]> getReservasServicios();
+	public List<Long> getReservasServicios();
 }
