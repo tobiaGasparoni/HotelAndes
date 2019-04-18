@@ -3,6 +3,7 @@
  */
 package main.java.hotelAndes.persistencia;
 
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -99,7 +100,13 @@ public class SQLReserva {
 		return (List<Reserva>) q.executeList();
 	}
 	
-	
+    public List<Long> darIdHabitacionesDeReservasEnPeriodoTiempo(PersistenceManager pm, Timestamp fechaInicio, Timestamp fechaFin) 
+    {
+    	Query q =  pm.newQuery(SQL, "SELECT HABITACION_ID FROM "+ pp.darTablaReserva()+ " WHERE FECHA_ENTRADA >= ? AND FECHA_ENTRADA <= ? AND FECHA_SALIDA <= ? AND FECHA_SALIDA >= ?");
+    	q.setParameters(fechaInicio,fechaFin, fechaFin, fechaInicio);
+    	
+    	return (List<Long>) q.executeList();
+    }
     public Long registrarLlegadaCliente (PersistenceManager pm, long idReserva, long idCuenta)
     {
     	Reserva reserva = darReservaPorId(pm, idReserva);
