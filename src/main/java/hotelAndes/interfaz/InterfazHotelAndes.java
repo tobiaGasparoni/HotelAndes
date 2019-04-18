@@ -276,7 +276,7 @@ public class InterfazHotelAndes extends JFrame implements ActionListener
     {
     	try 
     	{
-			List<VOTipoHabitacion> lista = hotelAndes.darVOTiposBebida();
+			List<VOTipoHabitacion> lista = hotelAndes.darVOTipoHabitacion();
 
 			String resultado = "En listarTipoHabitacion";
 			resultado +=  "\n" + listarTiposHabitacion(lista);

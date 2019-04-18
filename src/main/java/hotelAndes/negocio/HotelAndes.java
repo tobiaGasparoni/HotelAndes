@@ -73,7 +73,7 @@ public class HotelAndes
         return tipoHabitacion;
 	}
 	
-	public List<VOTipoHabitacion> darVOTiposBebida ()
+	public List<VOTipoHabitacion> darVOTipoHabitacion ()
 	{
 		log.info ("Generando los VO de Tipos de habitacion");        
         List<VOTipoHabitacion> voTipos = new LinkedList<VOTipoHabitacion> ();
@@ -83,6 +83,14 @@ public class HotelAndes
         }
         log.info ("Generando los VO de Tipos de habitacion: " + voTipos.size() + " existentes");
         return voTipos;
+	}
+	
+	public long eliminarTipoHabitacionPorId (long idTipoHabitacion)
+	{
+		log.info ("Eliminando Tipo de habitacion por id: " + idTipoHabitacion);
+        long resp = pp.eliminarTipoHabitacionPorId (idTipoHabitacion);		
+        log.info ("Eliminando Tipo de habitacion por id: " + resp + " tuplas eliminadas");
+        return resp;
 	}
 	
 	/* ****************************************************************
