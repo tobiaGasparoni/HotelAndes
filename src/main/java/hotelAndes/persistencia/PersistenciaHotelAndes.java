@@ -463,6 +463,33 @@ public class PersistenciaHotelAndes {
 		return sqlTipoHabitacion.darTiposHabitacion (pmf.getPersistenceManager());
 	}
 	
+	public long eliminarTipoHabitacionPorId (long idTipoHabitacion) 
+	{
+		PersistenceManager pm = pmf.getPersistenceManager();
+        Transaction tx=pm.currentTransaction();
+        try
+        {
+            tx.begin();
+            long resp = sqlTipoHabitacion.eliminarTipoHabitacionPorId(pm, idTipoHabitacion);
+            tx.commit();
+            return resp;
+        }
+        catch (Exception e)
+        {
+//        	e.printStackTrace();
+        	log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+            return -1;
+        }
+        finally
+        {
+            if (tx.isActive())
+            {
+                tx.rollback();
+            }
+            pm.close();
+        }
+	}
+	
 	/* ****************************************************************
 	 * 			Métodos para manejar los requerimientos de consulta
 	 *****************************************************************/
