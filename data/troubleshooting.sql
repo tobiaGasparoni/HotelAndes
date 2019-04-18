@@ -11,4 +11,14 @@ commit;
 
 alter session set ddl_lock_timeout = 600;
 
-ALTER SESSION SET nls_date_format = 'MON DD, YYYY';
+ALTER SESSION SET nls_timestamp_format = 'MON DD, YYYY';
+
+DATEADD(DAY, 5, '9/1/2011');
+
+DELETE FROM TIPOS_HABITACION
+WHERE ID = 5 OR ID = 4 OR ID = 21;
+
+SELECT * FROM CONSUMOS
+WHERE ID_SERVICIO_COMODIDAD = 2;
+
+SELECT HOTELANDES_SEQUENCE.nextval FROM DUAL;
