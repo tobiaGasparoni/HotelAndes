@@ -170,14 +170,13 @@ public class HotelAndes
 
 	/**
 	 * Elimina todas las tuplas de todas las tablas de la base de datos de Parranderos
-	 * @return Un arreglo con 7 números que indican el número de tuplas borradas en las tablas GUSTAN, SIRVEN, VISITAN, BEBIDA,
-	 * TIPOBEBIDA, BEBEDOR y BAR, respectivamente
+	 * @return Un arreglo con 7 números que indican el número de tuplas borradas en las tablas
 	 */
 	public long [] limpiarHotelAndes ()
 	{
-        log.info ("Limpiando la BD de Parranderos");
-        //long [] borrrados = pp.limpiarParranderos();	
-        log.info ("Limpiando la BD de Parranderos: Listo!");
-        return null;
+        log.info ("Limpiando la BD de HotelAndes");
+        long [] borrrados = pp.limpiarHotelAndes();	
+        log.info ("Limpiando la BD de HotelAndes: Listo!");
+        return borrrados;
 	}
 }

@@ -1125,4 +1125,37 @@ public class PersistenciaHotelAndes {
             pm.close();
         }
 	}
+	
+	/* ****************************************************************
+	 * 			Métodos para manejar la base de datos en general
+	 *****************************************************************/
+	public long [] limpiarHotelAndes()
+	{
+		PersistenceManager pm = pmf.getPersistenceManager();
+        Transaction tx=pm.currentTransaction();
+        try
+        {
+            tx.begin();
+            long [] tuplas = sqlUtil.limpiarHotelAndes(pm);
+            tx.commit();
+            
+            long numTuplas = tuplas.length;
+            log.trace("Limpiar HotelAndes: " + numTuplas);
+            
+            return tuplas;
+        }
+        catch (Exception e)
+        {
+        	//e.printStackTrace();
+        	log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+        	return null;
+        }
+        finally{
+			if (tx.isActive())
+            {
+                tx.rollback();
+            }
+            pm.close();
+        }
+	}
 }

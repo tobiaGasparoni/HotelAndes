@@ -845,6 +845,23 @@ public class InterfazHotelAndes extends JFrame implements ActionListener
 		}
 	}
 	
+	/* ****************************************************************
+	 * 			Métodos para la administracion de base de datos
+	 *****************************************************************/
+	public void limpiarBD()
+	{
+		try
+		{
+			hotelAndes.limpiarHotelAndes();
+			log.info ("Se limpio la base de datos existosamente");	
+		}
+		catch (Exception e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
     /* ****************************************************************
 	 * 			Métodos de la Interacción
 	 *****************************************************************/

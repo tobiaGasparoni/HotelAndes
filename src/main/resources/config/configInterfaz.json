@@ -59,16 +59,16 @@
 		  "options":
 			[
 				{
-					"label": "Mostrar log Parranderos",
-					"event": "mostrarLogParranderos"
+					"label": "Mostrar log HotelAndes",
+					"event": "mostrarLogHotelAndes"
 				},
 				{
 					"label": "Mostrar log datanucleus",
 					"event": "mostrarLogDatanuecleus"
 				},
 				{
-					"label": "Limpiar log de parranderos",
-					"event": "limpiarLogParranderos"
+					"label": "Limpiar log de HotelAndes",
+					"event": "limpiarLogHotelAndes"
 				},
 				{
 					"label": "Limpiar log de datanucleus",
