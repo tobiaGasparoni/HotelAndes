@@ -111,6 +111,7 @@ public class PersistenciaHotelAndes {
 	private SQLTipo_Habitacion sqlTipoHabitacion;
 
 	private SQLUsuario sqlUsuario;
+	
 	private SQLConsultas sqlConsultas;
 	
 	private PersistenciaHotelAndes()
