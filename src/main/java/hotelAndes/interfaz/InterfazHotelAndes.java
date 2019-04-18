@@ -38,8 +38,16 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonReader;
 
+import main.java.hotelAndes.negocio.AnalisisFechasDemanda;
+import main.java.hotelAndes.negocio.AnalisisFechasIngresos;
+import main.java.hotelAndes.negocio.BuenosClientes;
+import main.java.hotelAndes.negocio.ConsumosUsuarios;
+import main.java.hotelAndes.negocio.DineroRecolectadoPorHabitacion;
 import main.java.hotelAndes.negocio.HotelAndes;
+import main.java.hotelAndes.negocio.OcupacionHabitaciones;
+import main.java.hotelAndes.negocio.ServiciosMasPopulares;
 import main.java.hotelAndes.negocio.VOTipoHabitacion;
+import main.java.hotelAndes.persistencia.SQLConsultas.UnidadTiempo;
 
 @SuppressWarnings("serial")
 public class InterfazHotelAndes extends JFrame implements ActionListener
@@ -230,37 +238,292 @@ public class InterfazHotelAndes extends JFrame implements ActionListener
      * Adiciona un tipo de habitacion con la información dada por el usuario
      * Se crea una nueva tupla de tipoHabitacion en la base de datos, si un tipo de bebida con ese nombre no existía
      */
-//    public void adicionarTipoHabitacion( )
-//    {
-//    	try 
-//    	{
-//    		String nombreTipo = JOptionPane.showInputDialog (this, "Nombre del tipo de habitacion?", "Adicionar tipo de habitacion", JOptionPane.QUESTION_MESSAGE);
-//    		String descripcionTipo = JOptionPane.showInputDialog (this, "Descripcion del tipo de habitacion?", "Adicionar tipo de habitacion", JOptionPane.QUESTION_MESSAGE);
-//    		if (nombreTipo != null && descripcionTipo != null)
-//    		{
-//        		VOTipoHabitacion th = hotelAndes.adicionarTipoHabitacion(nombreTipo, descripcionTipo);
-//        		if (th == null)
-//        		{
-//        			throw new Exception("No se pudo crear un tipo de habitacion con nombre: " + nombreTipo + " y descripcion " + descripcionTipo);
-//        		}
-//        		String resultado = "En adicionarTipoHabitacion\n\n";
-//        		resultado += "Tipo de habitacion adicionado exitosamente: " + th;
-//    			resultado += "\n Operación terminada";
-//    			panelDatos.actualizarInterfaz(resultado);
-//    		}
-//    		else
-//    		{
-//    			panelDatos.actualizarInterfaz("Operación cancelada por el usuario");
-//    		}
-//		} 
-//    	catch (Exception e) 
-//    	{
-////			e.printStackTrace();
-//			String resultado = generarMensajeError(e);
-//			panelDatos.actualizarInterfaz(resultado);
-//		}
-//    }
+    public void adicionarTipoHabitacion( )
+    {
+    	try 
+    	{
+    		String nombreTipo = JOptionPane.showInputDialog (this, "Nombre del tipo de habitacion?", "Adicionar tipo de habitacion", JOptionPane.QUESTION_MESSAGE);
+    		String descripcionTipo = JOptionPane.showInputDialog (this, "Descripcion del tipo de habitacion?", "Adicionar tipo de habitacion", JOptionPane.QUESTION_MESSAGE);
+    		if (nombreTipo != null && descripcionTipo != null)
+    		{
+        		VOTipoHabitacion th = hotelAndes.adicionarTipoHabitacion(nombreTipo, descripcionTipo);
+        		if (th == null)
+        		{
+        			throw new Exception("No se pudo crear un tipo de habitacion con nombre: " + nombreTipo + " y descripcion " + descripcionTipo);
+        		}
+        		String resultado = "En adicionarTipoHabitacion\n\n";
+        		resultado += "Tipo de habitacion adicionado exitosamente: " + th;
+    			resultado += "\n Operación terminada";
+    			panelDatos.actualizarInterfaz(resultado);
+    		}
+    		else
+    		{
+    			panelDatos.actualizarInterfaz("Operación cancelada por el usuario");
+    		}
+		} 
+    	catch (Exception e) 
+    	{
+//			e.printStackTrace();
+			String resultado = generarMensajeError(e);
+			panelDatos.actualizarInterfaz(resultado);
+		}
+    }
     
+    /**
+     * Consulta en la base de datos los tipos de habitacion existentes y los muestra en el panel de datos de la aplicación
+     */
+    public void listarTipoHabitacion( )
+    {
+    	try 
+    	{
+			List<VOTipoHabitacion> lista = hotelAndes.darVOTiposBebida();
+
+			String resultado = "En listarTipoHabitacion";
+			resultado +=  "\n" + listarTiposHabitacion(lista);
+			panelDatos.actualizarInterfaz(resultado);
+			resultado += "\n Operación terminada";
+		} 
+    	catch (Exception e) 
+    	{
+//			e.printStackTrace();
+			String resultado = generarMensajeError(e);
+			panelDatos.actualizarInterfaz(resultado);
+		}
+    }
+    
+    /* ****************************************************************
+	 * 			Requerimientos funcionales de consulta
+	 *****************************************************************/
+    
+    public void dineroRecolectadoPorHabitacion()
+    {
+    	try 
+    	{
+    		String fechaMinima = JOptionPane.showInputDialog (this, "Fecha minima en el rango? Ej: '31-DEC-1995'", "Dinero recolectado por habitacion", JOptionPane.QUESTION_MESSAGE);
+    		String fechaMaxima = JOptionPane.showInputDialog (this, "Fecha maxima en el rango? Ej: '31-DEC-2030'", "Dinero recolectado por habitacion", JOptionPane.QUESTION_MESSAGE);
+    		if (fechaMinima != null && fechaMaxima != null)
+    		{
+        		List<DineroRecolectadoPorHabitacion> list = hotelAndes.dineroRecolectadoPorHabitacion(fechaMinima, fechaMaxima);
+        		if (list == null)
+        		{
+        			throw new Exception("No se pudo realizar la consulta con fecha inicial: " + fechaMinima + " y final " + fechaMaxima);
+        		}
+        		String resultado = "En dineroRecolectadoPorHabitacion\n\n";
+        		resultado += "Consulta realizada exitosamente:\n";
+        		resultado += dineroRecolectadoPorHabitacion(list);
+    			resultado += "\n Operación terminada";
+    			panelDatos.actualizarInterfaz(resultado);
+    		}
+    		else
+    		{
+    			panelDatos.actualizarInterfaz("Operación cancelada por el usuario");
+    		}
+		}
+    	catch (Exception e) 
+    	{
+//			e.printStackTrace();
+			String resultado = generarMensajeError(e);
+			panelDatos.actualizarInterfaz(resultado);
+		}
+    }
+    
+    public void serviciosMasPopulares( )
+    {
+    	try 
+    	{
+			List <ServiciosMasPopulares> lista = hotelAndes.serviciosMasPopulares();
+
+			String resultado = "En serviciosMasPopulares";
+			resultado +=  "\n" + serviciosMasPopulares(lista);
+			panelDatos.actualizarInterfaz(resultado);
+			resultado += "\n Operación terminada";
+		} 
+    	catch (Exception e) 
+    	{
+//			e.printStackTrace();
+			String resultado = generarMensajeError(e);
+			panelDatos.actualizarInterfaz(resultado);
+		}
+    }
+    
+    public void ocupacionHabitaciones( )
+    {
+    	try 
+    	{
+			List <OcupacionHabitaciones> lista = hotelAndes.ocupacionHabitaciones();
+
+			String resultado = "En serviciosMasPopulares";
+			resultado +=  "\n" + ocupacionHabitaciones(lista);
+			panelDatos.actualizarInterfaz(resultado);
+			resultado += "\n Operación terminada";
+		} 
+    	catch (Exception e) 
+    	{
+//			e.printStackTrace();
+			String resultado = generarMensajeError(e);
+			panelDatos.actualizarInterfaz(resultado);
+		}
+    }
+    
+    public void consumosUsuario()
+    {
+    	try 
+    	{
+    		String tipoDoc = JOptionPane.showInputDialog (this, "Tipo de documento del usuario? Ej: 'CC'", "Dinero recolectado por habitacion", JOptionPane.QUESTION_MESSAGE);
+    		String doc = JOptionPane.showInputDialog (this, "Documento del usuario? Ej: '9357853112'", "Dinero recolectado por habitacion", JOptionPane.QUESTION_MESSAGE);
+    		if (tipoDoc != null && doc != null)
+    		{
+        		List<ConsumosUsuarios> list = hotelAndes.consumosUsuarios(tipoDoc, doc);
+        		if (list == null)
+        		{
+        			throw new Exception("No se pudo realizar la consulta con tipo de documento: " + tipoDoc + " y documento " + doc);
+        		}
+        		String resultado = "En consumosUsuario\n\n";
+        		resultado += "Consulta realizada exitosamente:\n";
+        		resultado += consumosUsuario(list);
+    			resultado += "\n Operación terminada";
+    			panelDatos.actualizarInterfaz(resultado);
+    		}
+    		else
+    		{
+    			panelDatos.actualizarInterfaz("Operación cancelada por el usuario");
+    		}
+		}
+    	catch (Exception e) 
+    	{
+//			e.printStackTrace();
+			String resultado = generarMensajeError(e);
+			panelDatos.actualizarInterfaz(resultado);
+		}
+    }
+    
+    public void analisisFechasHotelAndes()
+    {
+    	try 
+    	{
+    		//Demanda o ingresos
+    		String[] dOiArr = { "Demanda", "Ingresos"};
+    		String dOi = (String) JOptionPane.showInputDialog(this, "Analizar consumos por demanda o ingresos?","Analisis Fechas HotelAndes",JOptionPane.QUESTION_MESSAGE, null, dOiArr, dOiArr[0]); 
+    		
+    		//por tipo de habitacion o tipo de servicio
+    		String[] hOsArr = { "Tipo de servicio", "Tipo de habitacion"};
+    		String hOs = (String) JOptionPane.showInputDialog(this, "Analizar consumos por tipo de servicio o de habitacion?","Analisis Fechas HotelAndes",JOptionPane.QUESTION_MESSAGE, null, hOsArr, hOsArr[0]);
+    		boolean porTipoHabitacion;
+    		if(hOs.equals("Tipo de servicio"))
+    			porTipoHabitacion = false;
+    		else
+    			porTipoHabitacion = true;
+    		
+    		String tipoServicio = null;
+    		if(hOs.equals("Tipo de servicio"))
+    		{
+    			String[] tipsServ = { "ID_SERVICIO_COMODIDAD", "ID_SERVICIO_PRODUCTOS", "ID_SERVICIO_HOTEL", "ID_SERVICIO_SALON"};
+    			tipoServicio = (String) JOptionPane.showInputDialog(this, "Cual tipo de servicio se quiere analizar?","Analisis Fechas HotelAndes",JOptionPane.QUESTION_MESSAGE, null, tipsServ, tipsServ[0]);
+    		}
+    		
+    		String por = null;
+            if(porTipoHabitacion)
+            	por = "tipo de habitacion";
+            else
+            	por = "tipo de servicio";
+    			
+    		String id = JOptionPane.showInputDialog (this, "ID del " + por  + "? Ej: '1'", "Analisis Fechas HotelAndes", JOptionPane.QUESTION_MESSAGE);
+    		
+    		
+    		//unidad de tiempo
+    		String[] units = { "Dia", "Semana", "Mes", "Anio"};
+    		String unit = (String) JOptionPane.showInputDialog(this, "Cual unidad de tiempo quiere tener en cuenta?","Analisis Fechas HotelAndes",JOptionPane.QUESTION_MESSAGE, null, units, units[0]);
+    		UnidadTiempo unidad = null;
+    		switch(unit)
+    		{
+    			case "Dia":
+    				unidad = UnidadTiempo.DIA;
+    				break;
+    			case "Semana":
+    				unidad = UnidadTiempo.SEMANA;
+    				break;
+    			case "Mes":
+    				unidad = UnidadTiempo.MES;
+    				break;
+    			case "Anio":
+    				unidad = UnidadTiempo.ANIO;
+    				break;
+    		}
+    		
+    		//cantidad de esa unidad
+    		String amount = JOptionPane.showInputDialog (this, "Numero de unidades? Ej: '1'", "Analisis Fechas HotelAndes", JOptionPane.QUESTION_MESSAGE);
+    		int amountNum = Integer.parseInt(amount);
+    		
+    		if (dOi != null && hOs != null && amount != null && id != null)
+    		{
+        		if(dOi.equals("Ingresos"))
+        		{
+        			List<AnalisisFechasIngresos> list = hotelAndes.analisisFechasIngresos(porTipoHabitacion, unidad, amountNum, id, tipoServicio);
+	        		if (list == null)
+	        		{
+	        			String por2 = null;
+	                    if(porTipoHabitacion)
+	                    	por2 = "por tipo de habitacion";
+	                    else
+	                    	por2 = "por tipo de servicio";
+	        			throw new Exception("No se pudo realizar la consulta de ingresos: " + por2 + ", " + amountNum + " " + unidad.toString());
+	        		}
+	        		String resultado = "En analisisFechasHotelAndes\n\n";
+	        		resultado += "Consulta realizada exitosamente:\n";
+	        		resultado += analisisFechasIngresos(list);
+	    			resultado += "\n Operación terminada";
+	    			panelDatos.actualizarInterfaz(resultado);
+        		}
+        		else if(dOi.equals("Demanda"))
+        		{
+        			List<AnalisisFechasDemanda> list = hotelAndes.analisisFechasDemanda(porTipoHabitacion, unidad, amountNum, id, tipoServicio);
+	        		if (list == null)
+	        		{
+	        			String por2 = null;
+	                    if(porTipoHabitacion)
+	                    	por2 = "por tipo de habitacion";
+	                    else
+	                    	por2 = "por tipo de servicio";
+	        			throw new Exception("No se pudo realizar la consulta de demanda: " + por2 + ", " + amountNum + " " + unidad.toString());
+	        		}
+	        		String resultado = "En analisisFechasHotelAndes\n\n";
+	        		resultado += "Consulta realizada exitosamente:\n";
+	        		resultado += analisisFechasDemanda(list);
+	    			resultado += "\n Operación terminada";
+	    			panelDatos.actualizarInterfaz(resultado);
+        		}
+    		}
+    		else
+    		{
+    			panelDatos.actualizarInterfaz("Operación cancelada por el usuario");
+    		}
+		}
+    	catch (Exception e) 
+    	{
+//			e.printStackTrace();
+			String resultado = generarMensajeError(e);
+			panelDatos.actualizarInterfaz(resultado);
+		}
+    }
+    
+    public void buenosClientes( )
+    {
+    	try 
+    	{
+			List <BuenosClientes> lista = hotelAndes.buenosClientes();
+
+			String resultado = "En buenosClientes";
+			resultado +=  "\n" + buenosClientes(lista);
+			panelDatos.actualizarInterfaz(resultado);
+			resultado += "\n Operación terminada";
+		} 
+    	catch (Exception e) 
+    	{
+//			e.printStackTrace();
+			String resultado = generarMensajeError(e);
+			panelDatos.actualizarInterfaz(resultado);
+		}
+    }
     
     /* ****************************************************************
 	 * 			Métodos administrativos
@@ -425,9 +688,9 @@ public class InterfazHotelAndes extends JFrame implements ActionListener
      * @param lista - La lista con los tipos de bebida
      * @return La cadena con una líea para cada tipo de bebida recibido
      */
-    private String listarTiposBebida(List<VOTipoHabitacion> lista) 
+    private String listarTiposHabitacion(List<VOTipoHabitacion> lista) 
     {
-    	String resp = "Los tipos de bebida existentes son:\n";
+    	String resp = "Los tipos de habitacion existentes son:\n";
     	int i = 1;
         for (VOTipoHabitacion tb : lista)
         {
@@ -435,7 +698,85 @@ public class InterfazHotelAndes extends JFrame implements ActionListener
         }
         return resp;
 	}
+    
+    private String dineroRecolectadoPorHabitacion(List<DineroRecolectadoPorHabitacion> lista) 
+    {
+    	String resp = "El dinero recolectado por cada habitacion es:\n";
+    	int i = 1;
+        for (DineroRecolectadoPorHabitacion tb : lista)
+        {
+        	resp += i++ + ". " + tb.toString() + "\n";
+        }
+        return resp;
+	}
+    
+    private String serviciosMasPopulares(List<ServiciosMasPopulares> lista) 
+    {
+    	String resp = "El dinero recolectado por cada habitacion es:\n";
+    	int i = 1;
+        for (ServiciosMasPopulares tb : lista)
+        {
+        	resp += i++ + ". " + tb.toString() + "\n";
+        }
+        return resp;
+	}
 
+    private String ocupacionHabitaciones(List<OcupacionHabitaciones> lista) 
+    {
+    	String resp = "El dinero recolectado por cada habitacion es:\n";
+    	int i = 1;
+        for (OcupacionHabitaciones tb : lista)
+        {
+        	resp += i++ + ". " + tb.toString() + "\n";
+        }
+        return resp;
+	}
+    
+    private String consumosUsuario(List<ConsumosUsuarios> lista) 
+    {
+    	String resp = "El dinero recolectado por cada habitacion es:\n";
+    	int i = 1;
+        for (ConsumosUsuarios tb : lista)
+        {
+        	resp += i++ + ". " + tb.toString() + "\n";
+        }
+        return resp;
+	}
+    
+    private String analisisFechasIngresos(List<AnalisisFechasIngresos> lista) 
+    {
+    	String resp = "Las fechas con mayores ingresos son:\n";
+    	int i = 1;
+        for (AnalisisFechasIngresos tb : lista)
+        {
+        	resp += i++ + ". " + tb.toString() + "\n";
+        }
+        return resp;
+	}
+    
+    private String analisisFechasDemanda(List<AnalisisFechasDemanda> lista) 
+    {
+    	String resp = "Las fechas con mayor demanda son:\n";
+    	int i = 1;
+        for (AnalisisFechasDemanda tb : lista)
+        {
+        	resp += i++ + ". " + tb.toString() + "\n";
+        }
+        return resp;
+	}
+    
+    private String buenosClientes(List<BuenosClientes> lista) 
+    {
+    	String resp = "Las fechas con mayor demanda son:\n";
+    	int i = 1;
+        for (BuenosClientes tb : lista)
+        {
+        	resp += i++ + ". " + tb.toString() + "\n";
+        }
+        return resp;
+	}
+    
+    
     /**
      * Genera una cadena de caracteres con la descripción de la excepcion e, haciendo énfasis en las excepcionsde JDO
      * @param e - La excepción recibida
