@@ -32,6 +32,9 @@ import main.java.hotelAndes.negocio.OcupacionHabitaciones;
 import main.java.hotelAndes.negocio.Reserva;
 import main.java.hotelAndes.negocio.ServiciosMasPopulares;
 import main.java.hotelAndes.negocio.ReservaServicio;
+import main.java.hotelAndes.negocio.ServicioComodidad;
+import main.java.hotelAndes.negocio.ServicioHotel;
+import main.java.hotelAndes.negocio.ServicioProductos;
 import main.java.hotelAndes.negocio.TipoHabitacion;
 import main.java.hotelAndes.negocio.Usuario;
 import main.java.hotelAndes.negocio.VOUsuario.TIPO_USUARIO;
@@ -114,9 +117,9 @@ public class PersistenciaHotelAndes {
 	private SQLTipo_Habitacion sqlTipoHabitacion;
 
 	private SQLUsuario sqlUsuario;
-	
+
 	private SQLConsultas sqlConsultas;
-	
+
 	private PersistenciaHotelAndes()
 	{
 
@@ -418,7 +421,7 @@ public class PersistenciaHotelAndes {
 		}
 		return resp;
 	}
-	
+
 	/* ****************************************************************
 	 * 			Métodos FUNCIONALES
 	 *****************************************************************/
@@ -432,9 +435,9 @@ public class PersistenciaHotelAndes {
 			long idUsuario = nextval();
 			long tuplasInsertadas = sqlUsuario.adicionarUsuario(pm, tipoDocumento, documento, tipo, nombre, correo, login, clave);
 			tx.commit();
-			
+
 			log.trace("Inserción de usuario: tipo de documento: " + tipoDocumento + " documento: " + documento + " tipo de usuario: "+ tipo +" nombre: "+ nombre+ " correo: "+ correo+ " login: "+login+ " clave: "+ clave + " ; " + tuplasInsertadas + " tuplas insertadas");
-			
+
 			TIPO_USUARIO tipoUsuario = null;
 			if(tipo.equalsIgnoreCase("cliente"))
 			{
@@ -468,8 +471,8 @@ public class PersistenciaHotelAndes {
 			pm.close();
 		}
 	}
-	
-	
+
+
 	/* ****************************************************************
 	 * 			Métodos para manejar los TIPOS DE HABITACION
 	 *****************************************************************/
@@ -509,7 +512,7 @@ public class PersistenciaHotelAndes {
 			pm.close();
 		}
 	}
-	
+
 	/**
 	 * Método que consulta todas las tuplas en la tabla TipoBebida
 	 * @return La lista de objetos TipoBebida, construidos con base en las tuplas de la tabla TIPOBEBIDA
@@ -518,50 +521,50 @@ public class PersistenciaHotelAndes {
 	{
 		return sqlTipoHabitacion.darTiposHabitacion (pmf.getPersistenceManager());
 	}
-	
+
 	public long eliminarTipoHabitacionPorId (long idTipoHabitacion) 
 	{
 		PersistenceManager pm = pmf.getPersistenceManager();
-        Transaction tx=pm.currentTransaction();
-        try
-        {
-            tx.begin();
-            long resp = sqlTipoHabitacion.eliminarTipoHabitacionPorId(pm, idTipoHabitacion);
-            tx.commit();
-            return resp;
-        }
-        catch (Exception e)
-        {
-//        	e.printStackTrace();
-        	log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
-            return -1;
-        }
-        finally
-        {
-            if (tx.isActive())
-            {
-                tx.rollback();
-            }
-            pm.close();
-        }
+		Transaction tx=pm.currentTransaction();
+		try
+		{
+			tx.begin();
+			long resp = sqlTipoHabitacion.eliminarTipoHabitacionPorId(pm, idTipoHabitacion);
+			tx.commit();
+			return resp;
+		}
+		catch (Exception e)
+		{
+			//        	e.printStackTrace();
+			log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+			return -1;
+		}
+		finally
+		{
+			if (tx.isActive())
+			{
+				tx.rollback();
+			}
+			pm.close();
+		}
 	}
-	
+
 	/* ****************************************************************
 	 * 			Métodos habitacion
 	 *****************************************************************/
-	
+
 	public Habitacion adicionarHabitacion( int capacidad, double consumo, int disponible, int llegadaCliente, long tipo, int idHotel, int enMantenimiento)
 	{
 		PersistenceManager pm = pmf.getPersistenceManager();
-        Transaction tx=pm.currentTransaction();
-        try {
+		Transaction tx=pm.currentTransaction();
+		try {
 			tx.begin();
 			long idHabitacion = nextval();
 			long tuplasInsertadas = sqlHabitacion.adicionarHabitacion(pm, idHabitacion, capacidad, consumo, disponible, llegadaCliente, tipo, idHotel, enMantenimiento);
 			tx.commit();
-			
+
 			log.trace("Inserción de habitacion: id: "+ idHabitacion+ " capacidad: "+capacidad+ " consumo: "+consumo+ " disponible: "+ disponible+ " el cliente a llegado: "+ llegadaCliente+ " id tipo de habitacion: "+ tipo+ " id hotel: "+ idHotel+ " habitacion en mantenimiento: "+enMantenimiento + ": " + tuplasInsertadas + " tuplas insertadas");
-			
+
 			boolean dispo= true;
 			if(disponible==0)
 			{
@@ -577,119 +580,237 @@ public class PersistenciaHotelAndes {
 			{
 				mantenimiento= false;
 			}
-			
+
 			return new Habitacion(idHabitacion, capacidad, consumo, dispo, llegadaCli, tipo, idHotel, mantenimiento);
-		
-        } catch (Exception e) {
+
+		} catch (Exception e) {
 			log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
-        	return null;
+			return null;
 		}finally 
-        {
-			 if (tx.isActive())
-	            {
-	                tx.rollback();
-	            }
-	            pm.close();
+		{
+			if (tx.isActive())
+			{
+				tx.rollback();
+			}
+			pm.close();
 		}
 	}
-	
+
+	/* ****************************************************************
+	 * 			Métodos servicio_comodidad
+	 *****************************************************************/
+
+	public ServicioComodidad adicionarServicioComodidad(String nombre, String descripcion, double costo, int enMantenimiento, int duracion, String horario, long idHotel)
+	{
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Transaction tx=pm.currentTransaction();
+		try {
+			tx.begin();
+			long idServicioComodidad = nextval();
+			long tuplasInsertadas = sqlServicioComodidad.adicionarServicioComodidad(pm, idServicioComodidad, nombre, descripcion, costo, enMantenimiento, duracion, horario, idHotel);
+
+
+			tx.commit();
+
+			log.trace("Inserción de ServicioComodidad: id: "+idServicioComodidad+" nombre: "+nombre+ " descripcion: "+descripcion+ " costo: "+costo+" enMantenimiento: "+enMantenimiento+ " duracion: "+duracion+" horario: "+horario+ " idHotel: "+idHotel+ " tuplasInserdas: "+tuplasInsertadas);
+
+			boolean mantenimiento = true;
+			if(enMantenimiento==0)
+			{
+				mantenimiento= false;
+			}
+
+			return new ServicioComodidad(idServicioComodidad, nombre, descripcion, duracion, horario, costo, mantenimiento);
+
+		} catch (Exception e) {
+			log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+			return null;
+
+		}finally 
+		{
+			if (tx.isActive())
+			{
+				tx.rollback();
+			}
+			pm.close();
+		}
+
+	}
+
+	/* ****************************************************************
+	 * 			Métodos servicio_Hotel
+	 *****************************************************************/
+
+	public ServicioHotel adicionarServicioHotel( String nombre, int capacidad, int ocupacionActual, String descripcion, int enMantenimiento, String horario, long idHotel)
+	{
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Transaction tx=pm.currentTransaction();
+		try {
+			tx.begin();
+			long idServicioHotel = nextval();
+			long tuplasInsertadas = sqlServicioHotel.adicionarServicioHotel(pm, idServicioHotel, nombre, capacidad, ocupacionActual, descripcion, enMantenimiento, horario, idHotel);
+
+			tx.commit();
+
+			log.trace("Inserción de ServicioComodidad: nombre: "+nombre+" capacidad: "+capacidad+" ocupacionActual: "+ocupacionActual+" descripcion: "+descripcion+ " enMantenimiento: "+enMantenimiento+" horario: "+horario+" tuplasInserdas: "+tuplasInsertadas);
+
+			boolean mantenimiento = true;
+			if(enMantenimiento==0)
+			{
+				mantenimiento= false;
+			}
+
+			return new ServicioHotel(idServicioHotel, nombre, descripcion, capacidad, ocupacionActual, mantenimiento, horario);
+		} catch (Exception e) {
+			log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+			return null;
+
+		}finally 
+		{
+			if (tx.isActive())
+			{
+				tx.rollback();
+			}
+			pm.close();
+		}
+
+	}
+
+	/* ****************************************************************
+	 * 			Métodos servicio_Productos
+	 *****************************************************************/
+
+	public ServicioProductos adicionarServicioProductos( String nombre, String tipo, int enMantenimiento, int capacidad, int ocupacionActual, String estilo, long idHotel)
+	{
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Transaction tx=pm.currentTransaction();
+		try {
+			tx.begin();
+			long idServicioProductos = nextval();
+			long tuplasInsertadas = sqlServicioProductos.adicionarServicioProductos(pm, idServicioProductos, nombre, tipo, enMantenimiento, capacidad, ocupacionActual, estilo, idHotel);
+					
+			tx.commit();
+
+			log.trace("Inserción de ServicioProductos: nombre: "+nombre+ " tipo: "+tipo+" capacidad: "+capacidad+" ocupacionActual: "+ocupacionActual+" estilo: "+" enMantenimiento: "+enMantenimiento+" idHotel: "+" tuplasInserdas: "+tuplasInsertadas);
+
+			boolean mantenimiento = true;
+			if(enMantenimiento==0)
+			{
+				mantenimiento= false;
+			}
+
+			return new ServicioProductos(idServicioProductos, nombre, tipo, capacidad, ocupacionActual, estilo, mantenimiento);
+		} catch (Exception e) {
+			log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+			return null;
+
+		}finally 
+		{
+			if (tx.isActive())
+			{
+				tx.rollback();
+			}
+			pm.close();
+		}
+
+	}
 	/* ****************************************************************
 	 * 			Métodos para manejar los requerimientos de consulta
 	 *****************************************************************/
 	public List<DineroRecolectadoPorHabitacion> dineroRecolectadoPorHabitacion(String fechaMinima, String fechaMaxima)
 	{
 		PersistenceManager pm = pmf.getPersistenceManager();
-        Transaction tx=pm.currentTransaction();
-        try
-        {
-            tx.begin();
-            List<DineroRecolectadoPorHabitacion> tuplas = sqlConsultas.dineroRecolectadoPorHabitacion(pm, fechaMinima, fechaMaxima);
-            tx.commit();
-            
-            long numTuplas = tuplas.size();
-            log.trace("Consulta dinero recolectado por habitacion: entre" + fechaMinima + " y " + fechaMaxima + ": " + numTuplas + " tuplas retornadas");
-            
-            return tuplas;
-        }
-        catch (Exception e)
-        {
-        	//e.printStackTrace();
-        	log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
-        	return null;
-        }
-        finally
-        {
-            if (tx.isActive())
-            {
-                tx.rollback();
-            }
-            pm.close();
-        }
+		Transaction tx=pm.currentTransaction();
+		try
+		{
+			tx.begin();
+			List<DineroRecolectadoPorHabitacion> tuplas = sqlConsultas.dineroRecolectadoPorHabitacion(pm, fechaMinima, fechaMaxima);
+			tx.commit();
+
+			long numTuplas = tuplas.size();
+			log.trace("Consulta dinero recolectado por habitacion: entre" + fechaMinima + " y " + fechaMaxima + ": " + numTuplas + " tuplas retornadas");
+
+			return tuplas;
+		}
+		catch (Exception e)
+		{
+			//e.printStackTrace();
+			log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+			return null;
+		}
+		finally
+		{
+			if (tx.isActive())
+			{
+				tx.rollback();
+			}
+			pm.close();
+		}
 	}
-	
+
 	public List<ServiciosMasPopulares> serviciosMasPopulares()
 	{
 		PersistenceManager pm = pmf.getPersistenceManager();
-        Transaction tx=pm.currentTransaction();
-        try
-        {
-            tx.begin();
-            List<ServiciosMasPopulares> tuplas = sqlConsultas.serviciosMasPopulares(pm);
-            tx.commit();
-            
-            long numTuplas = tuplas.size();
-            log.trace("Consulta 20 servicios mas populares: " + numTuplas + " tuplas retornadas");
-            
-            return tuplas;
-        }
-        catch (Exception e)
-        {
-        	//e.printStackTrace();
-        	log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
-        	return null;
-        }
-        finally
-        {
-            if (tx.isActive())
-            {
-                tx.rollback();
-            }
-            pm.close();
-        }
+		Transaction tx=pm.currentTransaction();
+		try
+		{
+			tx.begin();
+			List<ServiciosMasPopulares> tuplas = sqlConsultas.serviciosMasPopulares(pm);
+			tx.commit();
+
+			long numTuplas = tuplas.size();
+			log.trace("Consulta 20 servicios mas populares: " + numTuplas + " tuplas retornadas");
+
+			return tuplas;
+		}
+		catch (Exception e)
+		{
+			//e.printStackTrace();
+			log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+			return null;
+		}
+		finally
+		{
+			if (tx.isActive())
+			{
+				tx.rollback();
+			}
+			pm.close();
+		}
 	}
-	
+
 	public List<OcupacionHabitaciones> ocupacionHabitaciones()
 	{
 		PersistenceManager pm = pmf.getPersistenceManager();
-        Transaction tx=pm.currentTransaction();
-        try
-        {
-            tx.begin();
-            List<OcupacionHabitaciones> tuplas = sqlConsultas.ocupacionHabitaciones(pm);
-            tx.commit();
-            
-            long numTuplas = tuplas.size();
-            log.trace("Consulta indice de ocupacion de las habitaciones: " + numTuplas + " tuplas retornadas");
-            
-            return tuplas;
-        }
-        catch (Exception e)
-        {
-        	//e.printStackTrace();
-        	log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
-        	return null;
-        }
-        finally
-        {
-            if (tx.isActive())
-            {
-                tx.rollback();
-            }
-            pm.close();
+		Transaction tx=pm.currentTransaction();
+		try
+		{
+			tx.begin();
+			List<OcupacionHabitaciones> tuplas = sqlConsultas.ocupacionHabitaciones(pm);
+			tx.commit();
 
-        }
+			long numTuplas = tuplas.size();
+			log.trace("Consulta indice de ocupacion de las habitaciones: " + numTuplas + " tuplas retornadas");
+
+			return tuplas;
+		}
+		catch (Exception e)
+		{
+			//e.printStackTrace();
+			log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+			return null;
+		}
+		finally
+		{
+			if (tx.isActive())
+			{
+				tx.rollback();
+			}
+			pm.close();
+
+		}
 	}
-	
+
 	public Reserva adicionarReserva (Timestamp fechaEntrada, Timestamp fechaSalida, int numeroPersonas, long planPago, String tipoDocumento, String documento, String tipo, long idHabitacion, long idConvencion)
 	{
 		PersistenceManager pm = pmf.getPersistenceManager();
@@ -716,35 +837,35 @@ public class PersistenciaHotelAndes {
 			pm.close();
 		}
 	}
-	
+
 	public List<ConsumosUsuarios> consumosUsuarios(String tipoDoc, String doc)
 	{
 		PersistenceManager pm = pmf.getPersistenceManager();
-        Transaction tx=pm.currentTransaction();
-        try
-        {
-            tx.begin();
-            List<ConsumosUsuarios> tuplas = sqlConsultas.consumosUsuarios(pm, tipoDoc, doc);
-            tx.commit();
-            
-            long numTuplas = tuplas.size();
-            log.trace("Consulta consumos de un usuario dado: " + numTuplas + " tuplas retornadas");
-            
-            return tuplas;
-        }
-        catch (Exception e)
-        {
-        	//e.printStackTrace();
-        	log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
-        	return null;
-        }
-        finally{
+		Transaction tx=pm.currentTransaction();
+		try
+		{
+			tx.begin();
+			List<ConsumosUsuarios> tuplas = sqlConsultas.consumosUsuarios(pm, tipoDoc, doc);
+			tx.commit();
+
+			long numTuplas = tuplas.size();
+			log.trace("Consulta consumos de un usuario dado: " + numTuplas + " tuplas retornadas");
+
+			return tuplas;
+		}
+		catch (Exception e)
+		{
+			//e.printStackTrace();
+			log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+			return null;
+		}
+		finally{
 			if (tx.isActive())
-            {
-                tx.rollback();
-            }
-            pm.close();
-        }
+			{
+				tx.rollback();
+			}
+			pm.close();
+		}
 	}
 
 	public ReservaServicio adicionarReservaServicio (double costo, String descripcion, Timestamp fecha, String nombreEmpleado, int numClientes, String tipoServicio, long idServicio, String tipoDocumento, String documento, String tipo, long idHotel, long idConvencion)
@@ -772,40 +893,40 @@ public class PersistenciaHotelAndes {
 			pm.close();
 		}
 	}
-	
+
 	public List<AnalisisFechasIngresos> analisisFechasIngresos(boolean porTipoDeHabitacion, UnidadTiempo unit, int amount, String id, String tipoServicio)
 	{
 		PersistenceManager pm = pmf.getPersistenceManager();
-        Transaction tx=pm.currentTransaction();
-        try
-        {
-            tx.begin();
-            List<AnalisisFechasIngresos> tuplas = sqlConsultas.analisisFechasIngresos(pm, porTipoDeHabitacion, unit, amount, id, tipoServicio);
-            tx.commit();
-            String por = null;
-            if(porTipoDeHabitacion)
-            	por = "por tipo de habitacion";
-            else
-            	por = "por tipo de servicio";
-            
-            long numTuplas = tuplas.size();
-            log.trace("Consulta fechas mayores ingresos " + por + ": " + numTuplas + " tuplas retornadas");
-            
-            return tuplas;
-        }
-        catch (Exception e)
-        {
-        	//e.printStackTrace();
-        	log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
-        	return null;
-        }
-        finally{
+		Transaction tx=pm.currentTransaction();
+		try
+		{
+			tx.begin();
+			List<AnalisisFechasIngresos> tuplas = sqlConsultas.analisisFechasIngresos(pm, porTipoDeHabitacion, unit, amount, id, tipoServicio);
+			tx.commit();
+			String por = null;
+			if(porTipoDeHabitacion)
+				por = "por tipo de habitacion";
+			else
+				por = "por tipo de servicio";
+
+			long numTuplas = tuplas.size();
+			log.trace("Consulta fechas mayores ingresos " + por + ": " + numTuplas + " tuplas retornadas");
+
+			return tuplas;
+		}
+		catch (Exception e)
+		{
+			//e.printStackTrace();
+			log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+			return null;
+		}
+		finally{
 			if (tx.isActive())
-            {
-                tx.rollback();
-            }
-            pm.close();
-        }
+			{
+				tx.rollback();
+			}
+			pm.close();
+		}
 	}
 
 	public long registrarLlegadaCliente (long idReserva)
@@ -887,7 +1008,7 @@ public class PersistenciaHotelAndes {
 			long idConvencion =nextval();
 			long tuplasInsertadas = sqlConvencion.adicionarConvencion(pm, idConvencion, nombre, fechaInicio, fechaFin);
 			tx.commit();
-			
+
 			return new Convencion(idConvencion, nombre, fechaInicio, fechaFin);
 		} catch (Exception e) {
 			log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
@@ -945,7 +1066,7 @@ public class PersistenciaHotelAndes {
 			pm.close();
 		}
 	}
-	
+
 	public List<Long> salidadEnMantenimientoHabitaciones (List<Long> idHabitaciones)
 	{
 		PersistenceManager pm = pmf.getPersistenceManager();
@@ -969,7 +1090,7 @@ public class PersistenciaHotelAndes {
 			pm.close();
 		}
 	}
-	
+
 	public List<Long> entradaEnMantenimientoServiciosComodidad (List<Long> idServiciosComodidad)
 	{
 		PersistenceManager pm = pmf.getPersistenceManager();
@@ -993,7 +1114,7 @@ public class PersistenciaHotelAndes {
 			pm.close();
 		}
 	}
-	
+
 	public List<Long> salidaEnMantenimientoServiciosComodidad (List<Long> idServiciosComodidad)
 	{
 		PersistenceManager pm = pmf.getPersistenceManager();
@@ -1041,7 +1162,7 @@ public class PersistenciaHotelAndes {
 			pm.close();
 		}
 	}
-	
+
 	public List<Long> salidaEnMantenimientoServiciosHotel(List<Long> idServiciosHotel)
 	{
 		PersistenceManager pm = pmf.getPersistenceManager();
@@ -1089,7 +1210,7 @@ public class PersistenciaHotelAndes {
 			pm.close();
 		}
 	}
-	
+
 	public List<Long> salidaEnMantenimientoServiciosProductos (List<Long> idServiciosProductos)
 	{
 		PersistenceManager pm = pmf.getPersistenceManager();
@@ -1113,7 +1234,7 @@ public class PersistenciaHotelAndes {
 			pm.close();
 		}
 	}
-	
+
 	public List<Long> entradaEnMantenimientoServiciosSalon (List<Long> idServiciosSalon)
 	{
 		PersistenceManager pm = pmf.getPersistenceManager();
@@ -1137,7 +1258,7 @@ public class PersistenciaHotelAndes {
 			pm.close();
 		}
 	}
-	
+
 	public List<Long> salidaEnMantenimientoServiciosSalon (List<Long> idServiciosSalon)
 	{
 		PersistenceManager pm = pmf.getPersistenceManager();
@@ -1161,103 +1282,103 @@ public class PersistenciaHotelAndes {
 			pm.close();
 		}
 	}
-	
+
 	public List<AnalisisFechasDemanda> analisisFechasDemanda(boolean porTipoDeHabitacion, UnidadTiempo unit, int amount, String id, String tipoServicio)
 	{
 		PersistenceManager pm = pmf.getPersistenceManager();
-        Transaction tx=pm.currentTransaction();
-        try
-        {
-            tx.begin();
-            List<AnalisisFechasDemanda> tuplas = sqlConsultas.analisisFechasDemanda(pm, porTipoDeHabitacion, unit, amount, id, tipoServicio);
-            tx.commit();
-            String por = null;
-            if(porTipoDeHabitacion)
-            	por = "por tipo de habitacion";
-            else
-            	por = "por tipo de servicio";
-            
-            long numTuplas = tuplas.size();
-            log.trace("Consulta fechas mayor demanda " + por + ": " + numTuplas + " tuplas retornadas");
-            
-            return tuplas;
-        }
-        catch (Exception e)
-        {
-        	//e.printStackTrace();
-        	log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
-        	return null;
-        }
-        finally
-        {
-            if (tx.isActive())
-            {
-                tx.rollback();
-            }
-            pm.close();
-        }
+		Transaction tx=pm.currentTransaction();
+		try
+		{
+			tx.begin();
+			List<AnalisisFechasDemanda> tuplas = sqlConsultas.analisisFechasDemanda(pm, porTipoDeHabitacion, unit, amount, id, tipoServicio);
+			tx.commit();
+			String por = null;
+			if(porTipoDeHabitacion)
+				por = "por tipo de habitacion";
+			else
+				por = "por tipo de servicio";
+
+			long numTuplas = tuplas.size();
+			log.trace("Consulta fechas mayor demanda " + por + ": " + numTuplas + " tuplas retornadas");
+
+			return tuplas;
+		}
+		catch (Exception e)
+		{
+			//e.printStackTrace();
+			log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+			return null;
+		}
+		finally
+		{
+			if (tx.isActive())
+			{
+				tx.rollback();
+			}
+			pm.close();
+		}
 	}
-	
+
 	public List<BuenosClientes> buenosClientes()
 	{
 		PersistenceManager pm = pmf.getPersistenceManager();
-        Transaction tx=pm.currentTransaction();
-        try
-        {
-            tx.begin();
-            List<BuenosClientes> tuplas = sqlConsultas.buenosClientes(pm);
-            tx.commit();
-            
-            long numTuplas = tuplas.size();
-            log.trace("Consulta buenos clientes: " + numTuplas + " tuplas retornadas");
-            
-            return tuplas;
-        }
-        catch (Exception e)
-        {
-        	//e.printStackTrace();
-        	log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
-        	return null;
-        }
-        finally{
+		Transaction tx=pm.currentTransaction();
+		try
+		{
+			tx.begin();
+			List<BuenosClientes> tuplas = sqlConsultas.buenosClientes(pm);
+			tx.commit();
+
+			long numTuplas = tuplas.size();
+			log.trace("Consulta buenos clientes: " + numTuplas + " tuplas retornadas");
+
+			return tuplas;
+		}
+		catch (Exception e)
+		{
+			//e.printStackTrace();
+			log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+			return null;
+		}
+		finally{
 			if (tx.isActive())
-            {
-                tx.rollback();
-            }
-            pm.close();
-        }
+			{
+				tx.rollback();
+			}
+			pm.close();
+		}
 	}
-	
+
 	/* ****************************************************************
 	 * 			Métodos para manejar la base de datos en general
 	 *****************************************************************/
 	public long [] limpiarHotelAndes()
 	{
 		PersistenceManager pm = pmf.getPersistenceManager();
-        Transaction tx=pm.currentTransaction();
-        try
-        {
-            tx.begin();
-            long [] tuplas = sqlUtil.limpiarHotelAndes(pm);
-            tx.commit();
-            
-            long numTuplas = tuplas.length;
-            log.trace("Limpiar HotelAndes: " + numTuplas);
-            
-            return tuplas;
-        }
-        catch (Exception e)
-        {
-        	//e.printStackTrace();
-        	log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
-        	return null;
-        }
-        finally{
+		Transaction tx=pm.currentTransaction();
+		try
+		{
+			tx.begin();
+			long [] tuplas = sqlUtil.limpiarHotelAndes(pm);
+			tx.commit();
+
+			long numTuplas = tuplas.length;
+			log.trace("Limpiar HotelAndes: " + numTuplas);
+
+			return tuplas;
+		}
+		catch (Exception e)
+		{
+			//e.printStackTrace();
+			log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+			return null;
+		}
+		finally{
 			if (tx.isActive())
-            {
-                tx.rollback();
-            }
-            pm.close();
-        }
+			{
+				tx.rollback();
+			}
+			pm.close();
+		}
 	}
 }
