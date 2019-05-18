@@ -27,11 +27,14 @@ import main.java.hotelAndes.negocio.AnalisisFechasIngresos;
 import main.java.hotelAndes.negocio.BuenosClientes;
 import main.java.hotelAndes.negocio.ConsumosUsuarios;
 import main.java.hotelAndes.negocio.DineroRecolectadoPorHabitacion;
+import main.java.hotelAndes.negocio.Habitacion;
 import main.java.hotelAndes.negocio.OcupacionHabitaciones;
 import main.java.hotelAndes.negocio.Reserva;
 import main.java.hotelAndes.negocio.ServiciosMasPopulares;
 import main.java.hotelAndes.negocio.ReservaServicio;
 import main.java.hotelAndes.negocio.TipoHabitacion;
+import main.java.hotelAndes.negocio.Usuario;
+import main.java.hotelAndes.negocio.VOUsuario.TIPO_USUARIO;
 import main.java.hotelAndes.persistencia.SQLConsultas.UnidadTiempo;
 
 /**
@@ -415,7 +418,58 @@ public class PersistenciaHotelAndes {
 		}
 		return resp;
 	}
+	
+	/* ****************************************************************
+	 * 			Métodos FUNCIONALES
+	 *****************************************************************/
 
+	public Usuario adicionarUsuario (String tipoDocumento, String documento, String tipo, String nombre, String correo, String login, String clave )
+	{
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Transaction tx = pm.currentTransaction();
+		try {
+			tx.begin();
+			long idUsuario = nextval();
+			long tuplasInsertadas = sqlUsuario.adicionarUsuario(pm, tipoDocumento, documento, tipo, nombre, correo, login, clave);
+			tx.commit();
+			
+			log.trace("Inserción de usuario: tipo de documento: " + tipoDocumento + " documento: " + documento + " tipo de usuario: "+ tipo +" nombre: "+ nombre+ " correo: "+ correo+ " login: "+login+ " clave: "+ clave + " ; " + tuplasInsertadas + " tuplas insertadas");
+			
+			TIPO_USUARIO tipoUsuario = null;
+			if(tipo.equalsIgnoreCase("cliente"))
+			{
+				tipoUsuario = TIPO_USUARIO.CLIENTE;
+			}else if(tipo.equalsIgnoreCase("recepcionista"))
+			{
+				tipoUsuario = TIPO_USUARIO.RECEPCIONISTA;
+			}else if(tipo.equalsIgnoreCase("empleado"))
+			{
+				tipoUsuario = TIPO_USUARIO.EMPLEADO;
+			}else if (tipo.equalsIgnoreCase("administrador"))
+			{
+				tipoUsuario = TIPO_USUARIO.ADMINISTRADOR;
+			}else if (tipo.equalsIgnoreCase("gerente")) {
+				tipoUsuario = TIPO_USUARIO.GERENTE;
+			}else if (tipo.equalsIgnoreCase("organizador_eventos")) {
+				tipoUsuario =  TIPO_USUARIO.ORGANIZADOR_EVENTOS;
+			}
+			return new Usuario(idUsuario, login, nombre, documento, clave, tipoUsuario, tipoDocumento, correo);
+		} 
+		catch (Exception e) {
+			log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+			return null;
+		}
+		finally 
+		{
+			if (tx.isActive())
+			{
+				tx.rollback();
+			}
+			pm.close();
+		}
+	}
+	
+	
 	/* ****************************************************************
 	 * 			Métodos para manejar los TIPOS DE HABITACION
 	 *****************************************************************/
@@ -490,6 +544,53 @@ public class PersistenciaHotelAndes {
             }
             pm.close();
         }
+	}
+	
+	/* ****************************************************************
+	 * 			Métodos habitacion
+	 *****************************************************************/
+	
+	public Habitacion adicionarHabitacion( int capacidad, double consumo, int disponible, int llegadaCliente, long tipo, int idHotel, int enMantenimiento)
+	{
+		PersistenceManager pm = pmf.getPersistenceManager();
+        Transaction tx=pm.currentTransaction();
+        try {
+			tx.begin();
+			long idHabitacion = nextval();
+			long tuplasInsertadas = sqlHabitacion.adicionarHabitacion(pm, idHabitacion, capacidad, consumo, disponible, llegadaCliente, tipo, idHotel, enMantenimiento);
+			tx.commit();
+			
+			log.trace("Inserción de habitacion: id: "+ idHabitacion+ " capacidad: "+capacidad+ " consumo: "+consumo+ " disponible: "+ disponible+ " el cliente a llegado: "+ llegadaCliente+ " id tipo de habitacion: "+ tipo+ " id hotel: "+ idHotel+ " habitacion en mantenimiento: "+enMantenimiento + ": " + tuplasInsertadas + " tuplas insertadas");
+			
+			boolean dispo= true;
+			if(disponible==0)
+			{
+				dispo= false;
+			}
+			boolean llegadaCli= true;
+			if(llegadaCliente == 0)
+			{
+				llegadaCli =false;
+			}
+			boolean mantenimiento = true;
+			if(enMantenimiento==0)
+			{
+				mantenimiento= false;
+			}
+			
+			return new Habitacion(idHabitacion, capacidad, consumo, dispo, llegadaCli, tipo, idHotel, mantenimiento);
+		
+        } catch (Exception e) {
+			log.error ("Exception : " + e.getMessage() + "\n" + darDetalleException(e));
+        	return null;
+		}finally 
+        {
+			 if (tx.isActive())
+	            {
+	                tx.rollback();
+	            }
+	            pm.close();
+		}
 	}
 	
 	/* ****************************************************************
