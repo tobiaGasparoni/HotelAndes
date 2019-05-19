@@ -4676,6 +4676,7 @@ With the Partitioning, OLAP, Advanced Analytics and Real Application Testing opt
 20:59:13,786 (AWT-EventQueue-0) DEBUG [DataNucleus.Connection] - ManagedConnection CLOSED : "org.datanucleus.store.rdbms.ConnectionFactoryImpl$ManagedConnectionImpl@1876f1b7 [conn=org.datanucleus.store.rdbms.datasource.dbcp2.PoolingDataSource$PoolGuardConnectionWrapper@3e60a16c, commitOnRelease=false, closeOnRelease=false, closeOnTxnEnd=true]"
 20:59:13,791 (AWT-EventQueue-0) DEBUG [DataNucleus.Transaction] - Transaction rolled back in 15 ms
 20:59:13,792 (AWT-EventQueue-0) DEBUG [DataNucleus.Persistence] - ExecutionContext CLOSED "org.datanucleus.ExecutionContextImpl@4a569092"
+<<<<<<< HEAD
 09:16:50,006 (main) DEBUG [DataNucleus.General] - Using PluginRegistry org.datanucleus.plugin.NonManagedPluginRegistry
 09:16:50,034 (main) DEBUG [DataNucleus.General] - Registering bundle org.datanucleus.api.jdo version 5.1.7 at URL file:/C:/Users/Tobia%20Gasparoni/Documents/Universidad%20de%20los%20Andes/4%20Semestre/Sistemas%20transaccionales/HotelAndes/lib/datanucleus-api-jdo-5.1.7.jar.
 09:16:50,048 (main) DEBUG [DataNucleus.General] - Loading extension points and extensions from plug-in file jar:file:/C:/Users/Tobia%20Gasparoni/Documents/Universidad%20de%20los%20Andes/4%20Semestre/Sistemas%20transaccionales/HotelAndes/lib/datanucleus-api-jdo-5.1.7.jar!/plugin.xml.
