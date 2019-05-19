@@ -4676,3 +4676,11 @@ With the Partitioning, OLAP, Advanced Analytics and Real Application Testing opt
 20:59:13,786 (AWT-EventQueue-0) DEBUG [DataNucleus.Connection] - ManagedConnection CLOSED : "org.datanucleus.store.rdbms.ConnectionFactoryImpl$ManagedConnectionImpl@1876f1b7 [conn=org.datanucleus.store.rdbms.datasource.dbcp2.PoolingDataSource$PoolGuardConnectionWrapper@3e60a16c, commitOnRelease=false, closeOnRelease=false, closeOnTxnEnd=true]"
 20:59:13,791 (AWT-EventQueue-0) DEBUG [DataNucleus.Transaction] - Transaction rolled back in 15 ms
 20:59:13,792 (AWT-EventQueue-0) DEBUG [DataNucleus.Persistence] - ExecutionContext CLOSED "org.datanucleus.ExecutionContextImpl@4a569092"
+17:26:16,419 (main) DEBUG [DataNucleus.General] - Using PluginRegistry org.datanucleus.plugin.NonManagedPluginRegistry
+17:26:16,437 (main) DEBUG [DataNucleus.General] - Registering bundle org.datanucleus.api.jdo version 5.1.7 at URL file:/C:/Users/JulianDavid/talleres_workspace/newHotelAndes/HotelAndes/lib/datanucleus-api-jdo-5.1.7.jar.
+17:26:16,453 (main) DEBUG [DataNucleus.General] - Loading extension points and extensions from plug-in file jar:file:/C:/Users/JulianDavid/talleres_workspace/newHotelAndes/HotelAndes/lib/datanucleus-api-jdo-5.1.7.jar!/plugin.xml.
+17:26:16,463 (main) DEBUG [DataNucleus.General] - Registering bundle org.datanucleus version 5.1.10 at URL file:/C:/Users/JulianDavid/talleres_workspace/newHotelAndes/HotelAndes/lib/datanucleus-core-5.1.10.jar.
+17:26:16,465 (main) DEBUG [DataNucleus.General] - Loading extension points and extensions from plug-in file jar:file:/C:/Users/JulianDavid/talleres_workspace/newHotelAndes/HotelAndes/lib/datanucleus-core-5.1.10.jar!/plugin.xml.
+17:26:16,471 (main) DEBUG [DataNucleus.General] - Registering bundle org.datanucleus.store.rdbms version 5.1.10 at URL file:/C:/Users/JulianDavid/talleres_workspace/newHotelAndes/HotelAndes/lib/datanucleus-rdbms-5.1.10.jar.
+17:26:16,473 (main) DEBUG [DataNucleus.General] - Loading extension points and extensions from plug-in file jar:file:/C:/Users/JulianDavid/talleres_workspace/newHotelAndes/HotelAndes/lib/datanucleus-rdbms-5.1.10.jar!/plugin.xml.
+17:26:16,490 (main) DEBUG [DataNucleus.MetaData] - Parsing MetaData file "file:/C:/Users/JulianDavid/talleres_workspace/newHotelAndes/HotelAndes/target/classes/META-INF/persistence.xml" using handler "persistence" (validation="false")

@@ -230,6 +230,19 @@ public class InterfazHotelAndes extends JFrame implements ActionListener
         }        
         setJMenuBar ( menuBar );	
     }
+    /* ****************************************************************
+	 * 			CRUD de habitacion
+	 *****************************************************************/
+    
+    public void adicionarHabitacion()
+    {
+    	try {
+		} catch (Exception e) {
+			String resultado = generarMensajeError(e);
+			panelDatos.actualizarInterfaz(resultado);
+		}
+    }
+    
     
     /* ****************************************************************
 	 * 			CRUD de TipoHabitacion
